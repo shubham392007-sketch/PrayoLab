@@ -13,9 +13,12 @@ import { Route as SignupRouteImport } from './routes/signup'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as LabsRouteImport } from './routes/labs'
+import { Route as GraphVisualizerRouteImport } from './routes/graph-visualizer'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as LabsMatricesRouteImport } from './routes/labs.matrices'
+import { Route as LabsFourierSeriesRouteImport } from './routes/labs.fourier-series'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
@@ -37,6 +40,11 @@ const LabsRoute = LabsRouteImport.update({
   path: '/labs',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GraphVisualizerRoute = GraphVisualizerRouteImport.update({
+  id: '/graph-visualizer',
+  path: '/graph-visualizer',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
   id: '/forgot-password',
   path: '/forgot-password',
@@ -52,34 +60,53 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LabsMatricesRoute = LabsMatricesRouteImport.update({
+  id: '/matrices',
+  path: '/matrices',
+  getParentRoute: () => LabsRoute,
+} as any)
+const LabsFourierSeriesRoute = LabsFourierSeriesRouteImport.update({
+  id: '/fourier-series',
+  path: '/fourier-series',
+  getParentRoute: () => LabsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/forgot-password': typeof ForgotPasswordRoute
-  '/labs': typeof LabsRoute
+  '/graph-visualizer': typeof GraphVisualizerRoute
+  '/labs': typeof LabsRouteWithChildren
   '/login': typeof LoginRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
+  '/labs/fourier-series': typeof LabsFourierSeriesRoute
+  '/labs/matrices': typeof LabsMatricesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/forgot-password': typeof ForgotPasswordRoute
-  '/labs': typeof LabsRoute
+  '/graph-visualizer': typeof GraphVisualizerRoute
+  '/labs': typeof LabsRouteWithChildren
   '/login': typeof LoginRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
+  '/labs/fourier-series': typeof LabsFourierSeriesRoute
+  '/labs/matrices': typeof LabsMatricesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/forgot-password': typeof ForgotPasswordRoute
-  '/labs': typeof LabsRoute
+  '/graph-visualizer': typeof GraphVisualizerRoute
+  '/labs': typeof LabsRouteWithChildren
   '/login': typeof LoginRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
+  '/labs/fourier-series': typeof LabsFourierSeriesRoute
+  '/labs/matrices': typeof LabsMatricesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -87,35 +114,45 @@ export interface FileRouteTypes {
     | '/'
     | '/dashboard'
     | '/forgot-password'
+    | '/graph-visualizer'
     | '/labs'
     | '/login'
     | '/reset-password'
     | '/signup'
+    | '/labs/fourier-series'
+    | '/labs/matrices'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/dashboard'
     | '/forgot-password'
+    | '/graph-visualizer'
     | '/labs'
     | '/login'
     | '/reset-password'
     | '/signup'
+    | '/labs/fourier-series'
+    | '/labs/matrices'
   id:
     | '__root__'
     | '/'
     | '/dashboard'
     | '/forgot-password'
+    | '/graph-visualizer'
     | '/labs'
     | '/login'
     | '/reset-password'
     | '/signup'
+    | '/labs/fourier-series'
+    | '/labs/matrices'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardRoute: typeof DashboardRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
-  LabsRoute: typeof LabsRoute
+  GraphVisualizerRoute: typeof GraphVisualizerRoute
+  LabsRoute: typeof LabsRouteWithChildren
   LoginRoute: typeof LoginRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SignupRoute: typeof SignupRoute
@@ -151,6 +188,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LabsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/graph-visualizer': {
+      id: '/graph-visualizer'
+      path: '/graph-visualizer'
+      fullPath: '/graph-visualizer'
+      preLoaderRoute: typeof GraphVisualizerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/forgot-password': {
       id: '/forgot-password'
       path: '/forgot-password'
@@ -172,14 +216,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/labs/matrices': {
+      id: '/labs/matrices'
+      path: '/matrices'
+      fullPath: '/labs/matrices'
+      preLoaderRoute: typeof LabsMatricesRouteImport
+      parentRoute: typeof LabsRoute
+    }
+    '/labs/fourier-series': {
+      id: '/labs/fourier-series'
+      path: '/fourier-series'
+      fullPath: '/labs/fourier-series'
+      preLoaderRoute: typeof LabsFourierSeriesRouteImport
+      parentRoute: typeof LabsRoute
+    }
   }
 }
+
+interface LabsRouteChildren {
+  LabsFourierSeriesRoute: typeof LabsFourierSeriesRoute
+  LabsMatricesRoute: typeof LabsMatricesRoute
+}
+
+const LabsRouteChildren: LabsRouteChildren = {
+  LabsFourierSeriesRoute: LabsFourierSeriesRoute,
+  LabsMatricesRoute: LabsMatricesRoute,
+}
+
+const LabsRouteWithChildren = LabsRoute._addFileChildren(LabsRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRoute: DashboardRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,
-  LabsRoute: LabsRoute,
+  GraphVisualizerRoute: GraphVisualizerRoute,
+  LabsRoute: LabsRouteWithChildren,
   LoginRoute: LoginRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SignupRoute: SignupRoute,
