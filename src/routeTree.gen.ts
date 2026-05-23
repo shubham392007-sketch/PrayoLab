@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as LabsRouteImport } from './routes/labs'
 import { Route as GraphVisualizerRouteImport } from './routes/graph-visualizer'
@@ -40,6 +41,11 @@ const SignupRoute = SignupRouteImport.update({
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -153,6 +159,7 @@ export interface FileRoutesByFullPath {
   '/graph-visualizer': typeof GraphVisualizerRoute
   '/labs': typeof LabsRouteWithChildren
   '/login': typeof LoginRoute
+  '/profile': typeof ProfileRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/labs/differential-equations': typeof LabsDifferentialEquationsRoute
@@ -177,6 +184,7 @@ export interface FileRoutesByTo {
   '/graph-visualizer': typeof GraphVisualizerRoute
   '/labs': typeof LabsRouteWithChildren
   '/login': typeof LoginRoute
+  '/profile': typeof ProfileRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/labs/differential-equations': typeof LabsDifferentialEquationsRoute
@@ -202,6 +210,7 @@ export interface FileRoutesById {
   '/graph-visualizer': typeof GraphVisualizerRoute
   '/labs': typeof LabsRouteWithChildren
   '/login': typeof LoginRoute
+  '/profile': typeof ProfileRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/labs/differential-equations': typeof LabsDifferentialEquationsRoute
@@ -228,6 +237,7 @@ export interface FileRouteTypes {
     | '/graph-visualizer'
     | '/labs'
     | '/login'
+    | '/profile'
     | '/reset-password'
     | '/signup'
     | '/labs/differential-equations'
@@ -252,6 +262,7 @@ export interface FileRouteTypes {
     | '/graph-visualizer'
     | '/labs'
     | '/login'
+    | '/profile'
     | '/reset-password'
     | '/signup'
     | '/labs/differential-equations'
@@ -276,6 +287,7 @@ export interface FileRouteTypes {
     | '/graph-visualizer'
     | '/labs'
     | '/login'
+    | '/profile'
     | '/reset-password'
     | '/signup'
     | '/labs/differential-equations'
@@ -301,6 +313,7 @@ export interface RootRouteChildren {
   GraphVisualizerRoute: typeof GraphVisualizerRoute
   LabsRoute: typeof LabsRouteWithChildren
   LoginRoute: typeof LoginRoute
+  ProfileRoute: typeof ProfileRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SignupRoute: typeof SignupRoute
 }
@@ -319,6 +332,13 @@ declare module '@tanstack/react-router' {
       path: '/reset-password'
       fullPath: '/reset-password'
       preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -507,6 +527,7 @@ const rootRouteChildren: RootRouteChildren = {
   GraphVisualizerRoute: GraphVisualizerRoute,
   LabsRoute: LabsRouteWithChildren,
   LoginRoute: LoginRoute,
+  ProfileRoute: ProfileRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SignupRoute: SignupRoute,
 }
