@@ -9,14 +9,23 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TheoryRouteImport } from './routes/theory'
 import { Route as SignupRouteImport } from './routes/signup'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as SavedWorkRouteImport } from './routes/saved-work'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as PracticeRouteImport } from './routes/practice'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as LabsRouteImport } from './routes/labs'
+import { Route as HowToUseRouteImport } from './routes/how-to-use'
 import { Route as GraphVisualizerRouteImport } from './routes/graph-visualizer'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as DevelopersRouteImport } from './routes/developers'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as LabsPartialDifferentiationRouteImport } from './routes/labs.partial-differentiation'
 import { Route as LabsNthDerivativeRouteImport } from './routes/labs.nth-derivative'
@@ -33,9 +42,24 @@ import { Route as LabsDoubleIntegralsRouteImport } from './routes/labs.double-in
 import { Route as LabsDifferentiationUnderIntegralRouteImport } from './routes/labs.differentiation-under-integral'
 import { Route as LabsDifferentialEquationsRouteImport } from './routes/labs.differential-equations'
 
+const TheoryRoute = TheoryRouteImport.update({
+  id: '/theory',
+  path: '/theory',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
   path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SavedWorkRoute = SavedWorkRouteImport.update({
+  id: '/saved-work',
+  path: '/saved-work',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -43,9 +67,19 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ReportsRoute = ReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProfileRoute = ProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PracticeRoute = PracticeRouteImport.update({
+  id: '/practice',
+  path: '/practice',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -58,6 +92,11 @@ const LabsRoute = LabsRouteImport.update({
   path: '/labs',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HowToUseRoute = HowToUseRouteImport.update({
+  id: '/how-to-use',
+  path: '/how-to-use',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GraphVisualizerRoute = GraphVisualizerRouteImport.update({
   id: '/graph-visualizer',
   path: '/graph-visualizer',
@@ -68,9 +107,24 @@ const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
   path: '/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DevelopersRoute = DevelopersRouteImport.update({
+  id: '/developers',
+  path: '/developers',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -154,14 +208,23 @@ const LabsDifferentialEquationsRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
+  '/developers': typeof DevelopersRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/graph-visualizer': typeof GraphVisualizerRoute
+  '/how-to-use': typeof HowToUseRoute
   '/labs': typeof LabsRouteWithChildren
   '/login': typeof LoginRoute
+  '/practice': typeof PracticeRoute
   '/profile': typeof ProfileRoute
+  '/reports': typeof ReportsRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/saved-work': typeof SavedWorkRoute
+  '/settings': typeof SettingsRoute
   '/signup': typeof SignupRoute
+  '/theory': typeof TheoryRoute
   '/labs/differential-equations': typeof LabsDifferentialEquationsRoute
   '/labs/differentiation-under-integral': typeof LabsDifferentiationUnderIntegralRoute
   '/labs/double-integrals': typeof LabsDoubleIntegralsRoute
@@ -179,14 +242,23 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
+  '/developers': typeof DevelopersRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/graph-visualizer': typeof GraphVisualizerRoute
+  '/how-to-use': typeof HowToUseRoute
   '/labs': typeof LabsRouteWithChildren
   '/login': typeof LoginRoute
+  '/practice': typeof PracticeRoute
   '/profile': typeof ProfileRoute
+  '/reports': typeof ReportsRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/saved-work': typeof SavedWorkRoute
+  '/settings': typeof SettingsRoute
   '/signup': typeof SignupRoute
+  '/theory': typeof TheoryRoute
   '/labs/differential-equations': typeof LabsDifferentialEquationsRoute
   '/labs/differentiation-under-integral': typeof LabsDifferentiationUnderIntegralRoute
   '/labs/double-integrals': typeof LabsDoubleIntegralsRoute
@@ -205,14 +277,23 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
+  '/developers': typeof DevelopersRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/graph-visualizer': typeof GraphVisualizerRoute
+  '/how-to-use': typeof HowToUseRoute
   '/labs': typeof LabsRouteWithChildren
   '/login': typeof LoginRoute
+  '/practice': typeof PracticeRoute
   '/profile': typeof ProfileRoute
+  '/reports': typeof ReportsRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/saved-work': typeof SavedWorkRoute
+  '/settings': typeof SettingsRoute
   '/signup': typeof SignupRoute
+  '/theory': typeof TheoryRoute
   '/labs/differential-equations': typeof LabsDifferentialEquationsRoute
   '/labs/differentiation-under-integral': typeof LabsDifferentiationUnderIntegralRoute
   '/labs/double-integrals': typeof LabsDoubleIntegralsRoute
@@ -232,14 +313,23 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/about'
+    | '/contact'
     | '/dashboard'
+    | '/developers'
     | '/forgot-password'
     | '/graph-visualizer'
+    | '/how-to-use'
     | '/labs'
     | '/login'
+    | '/practice'
     | '/profile'
+    | '/reports'
     | '/reset-password'
+    | '/saved-work'
+    | '/settings'
     | '/signup'
+    | '/theory'
     | '/labs/differential-equations'
     | '/labs/differentiation-under-integral'
     | '/labs/double-integrals'
@@ -257,14 +347,23 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/about'
+    | '/contact'
     | '/dashboard'
+    | '/developers'
     | '/forgot-password'
     | '/graph-visualizer'
+    | '/how-to-use'
     | '/labs'
     | '/login'
+    | '/practice'
     | '/profile'
+    | '/reports'
     | '/reset-password'
+    | '/saved-work'
+    | '/settings'
     | '/signup'
+    | '/theory'
     | '/labs/differential-equations'
     | '/labs/differentiation-under-integral'
     | '/labs/double-integrals'
@@ -282,14 +381,23 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/about'
+    | '/contact'
     | '/dashboard'
+    | '/developers'
     | '/forgot-password'
     | '/graph-visualizer'
+    | '/how-to-use'
     | '/labs'
     | '/login'
+    | '/practice'
     | '/profile'
+    | '/reports'
     | '/reset-password'
+    | '/saved-work'
+    | '/settings'
     | '/signup'
+    | '/theory'
     | '/labs/differential-equations'
     | '/labs/differentiation-under-integral'
     | '/labs/double-integrals'
@@ -308,23 +416,53 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  ContactRoute: typeof ContactRoute
   DashboardRoute: typeof DashboardRoute
+  DevelopersRoute: typeof DevelopersRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   GraphVisualizerRoute: typeof GraphVisualizerRoute
+  HowToUseRoute: typeof HowToUseRoute
   LabsRoute: typeof LabsRouteWithChildren
   LoginRoute: typeof LoginRoute
+  PracticeRoute: typeof PracticeRoute
   ProfileRoute: typeof ProfileRoute
+  ReportsRoute: typeof ReportsRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  SavedWorkRoute: typeof SavedWorkRoute
+  SettingsRoute: typeof SettingsRoute
   SignupRoute: typeof SignupRoute
+  TheoryRoute: typeof TheoryRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/theory': {
+      id: '/theory'
+      path: '/theory'
+      fullPath: '/theory'
+      preLoaderRoute: typeof TheoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/signup': {
       id: '/signup'
       path: '/signup'
       fullPath: '/signup'
       preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/saved-work': {
+      id: '/saved-work'
+      path: '/saved-work'
+      fullPath: '/saved-work'
+      preLoaderRoute: typeof SavedWorkRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reset-password': {
@@ -334,11 +472,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reports': {
+      id: '/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof ReportsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/profile': {
       id: '/profile'
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/practice': {
+      id: '/practice'
+      path: '/practice'
+      fullPath: '/practice'
+      preLoaderRoute: typeof PracticeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -355,6 +507,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LabsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/how-to-use': {
+      id: '/how-to-use'
+      path: '/how-to-use'
+      fullPath: '/how-to-use'
+      preLoaderRoute: typeof HowToUseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/graph-visualizer': {
       id: '/graph-visualizer'
       path: '/graph-visualizer'
@@ -369,11 +528,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/developers': {
+      id: '/developers'
+      path: '/developers'
+      fullPath: '/developers'
+      preLoaderRoute: typeof DevelopersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard': {
       id: '/dashboard'
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -522,14 +702,23 @@ const LabsRouteWithChildren = LabsRoute._addFileChildren(LabsRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  ContactRoute: ContactRoute,
   DashboardRoute: DashboardRoute,
+  DevelopersRoute: DevelopersRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,
   GraphVisualizerRoute: GraphVisualizerRoute,
+  HowToUseRoute: HowToUseRoute,
   LabsRoute: LabsRouteWithChildren,
   LoginRoute: LoginRoute,
+  PracticeRoute: PracticeRoute,
   ProfileRoute: ProfileRoute,
+  ReportsRoute: ReportsRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  SavedWorkRoute: SavedWorkRoute,
+  SettingsRoute: SettingsRoute,
   SignupRoute: SignupRoute,
+  TheoryRoute: TheoryRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
