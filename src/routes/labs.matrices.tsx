@@ -10,6 +10,8 @@ import { det, inverse, transpose, rank, matToTex, fmt, safeMatrix } from "@/lib/
 import { Stepwise } from "@/components/prayolab/stepwise";
 import { F } from "@/components/prayolab/formula";
 import { useSaved } from "@/lib/saved-store";
+import { exportDerivationPDF } from "@/lib/pdf-export";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/labs/matrices")({ component: MatrixLab });
 
@@ -95,7 +97,13 @@ function MatrixLab() {
   const exportReport = () => {
     if (!solved) return;
     addReport({ kind: "Matrix", title: `Matrix ${op} report`, summary: `${rows}×${cols} matrix` });
-    alert("Report saved to your Reports.");
+    toast.success("Report saved to Reports");
+  };
+
+  const exportPdf = () => {
+    if (!solved) return;
+    exportDerivationPDF({ title: `Matrix ${op}`, subtitle: `${rows}×${cols} matrix`, steps: solved.steps, result: solved.result });
+    toast.success("PDF downloaded");
   };
 
   return (
@@ -104,6 +112,7 @@ function MatrixLab() {
       subtitle="Solve matrix operations, determinants, inverses and more."
       right={
         <div className="flex gap-2">
+          <Button variant="outline" className="rounded-full" onClick={exportPdf} disabled={!solved}>Export PDF</Button>
           <Button variant="outline" className="rounded-full" onClick={exportReport} disabled={!solved}>Save report</Button>
         </div>
       }
