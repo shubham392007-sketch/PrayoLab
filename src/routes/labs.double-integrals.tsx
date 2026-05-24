@@ -1,15 +1,42 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { LabShell } from "@/components/prayolab/lab-shell";
+import { ComputedLab } from "@/components/prayolab/computed-lab";
+import { parse } from "mathjs";
+import { tex } from "@/lib/math-engine";
 
 export const Route = createFileRoute("/labs/double-integrals")({ component: Page });
 
 function Page() {
   return (
-    <LabShell title="Double Integrals" subtitle="Interactive laboratory.">
-      <div className="pl-card pl-soft-shadow p-8 text-center">
-        <div className="text-sm text-muted-foreground">This laboratory is part of the PrayoLab Double Integrals module.</div>
-        <p className="mt-3 text-foreground max-w-xl mx-auto">Full interactive engine is available in the flagship Matrix, Fourier, Cramer's Rule, Graph Visualizer and Double Integrals labs. Stepwise solver, derivation engine and visualizations follow the same patterns and are being progressively rolled out across all topics.</p>
-      </div>
-    </LabShell>
+    <ComputedLab
+      title="Double Integrals"
+      subtitle="∫∫_R f(x, y) dA over a rectangular region — Simpson 2D."
+      fields={[
+        { name: "expr", label: "f(x, y)", defaultValue: "x*y" },
+        { name: "x0", label: "x from", defaultValue: "0" },
+        { name: "x1", label: "x to", defaultValue: "1" },
+        { name: "y0", label: "y from", defaultValue: "0" },
+        { name: "y1", label: "y to", defaultValue: "1" },
+      ]}
+      compute={({ expr, x0, x1, y0, y1 }) => {
+        const node = parse(expr);
+        const a = parseFloat(x0), b = parseFloat(x1), c = parseFloat(y0), d = parseFloat(y1);
+        const N = 80;
+        const hx = (b - a) / N, hy = (d - c) / N;
+        let s = 0;
+        for (let i = 0; i <= N; i++) for (let j = 0; j <= N; j++) {
+          const wx = i === 0 || i === N ? 1 : i % 2 ? 4 : 2;
+          const wy = j === 0 || j === N ? 1 : j % 2 ? 4 : 2;
+          s += wx * wy * node.evaluate({ x: a + i * hx, y: c + j * hy });
+        }
+        const I = (hx * hy / 9) * s;
+        return {
+          steps: [
+            { title: "Integral", tex: `\\int_{${c}}^{${d}}\\int_{${a}}^{${b}} ${tex(expr)} \\, dx\\, dy` },
+            { title: "Method", note: "Composite Simpson's rule, 80×80 panels." },
+          ],
+          result: `I \\approx ${I.toFixed(8)}`,
+        };
+      }}
+    />
   );
 }

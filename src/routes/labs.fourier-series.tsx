@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { useSaved } from "@/lib/saved-store";
+import { exportDerivationPDF } from "@/lib/pdf-export";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/labs/fourier-series")({ component: FourierLab });
 
@@ -57,7 +59,28 @@ function FourierLab() {
     <LabShell
       title="Fourier Series Laboratory"
       subtitle="Decompose periodic signals into sines and cosines."
-      right={<Button variant="outline" className="rounded-full" onClick={() => { log({ kind: "Fourier", title: `Fourier on ${preset}, N=${N}` }); alert("Exported."); }}>Export Results</Button>}
+      right={
+        <Button
+          variant="outline"
+          className="rounded-full"
+          onClick={() => {
+            log({ kind: "Fourier", title: `Fourier on ${preset}, N=${N}` });
+            exportDerivationPDF({
+              title: `Fourier Series — ${preset}`,
+              subtitle: `Partial sum up to N = ${N} on [-π, π]`,
+              steps: [
+                { title: "a₀", tex: `a_0 = ${data.coeffs.a0.toFixed(4)}` },
+                ...data.coeffs.a.slice(0, N).map((a, i) => ({
+                  title: `Harmonic n = ${i + 1}`,
+                  tex: `a_${i + 1} = ${a.toFixed(4)},\\ b_${i + 1} = ${data.coeffs.b[i].toFixed(4)}`,
+                })),
+              ],
+              result: `S_{${N}}(x) = \\dfrac{a_0}{2} + \\sum_{n=1}^{${N}} a_n \\cos(n x) + b_n \\sin(n x)`,
+            });
+            toast.success("PDF downloaded");
+          }}
+        >Export PDF</Button>
+      }
     >
       <div className="grid lg:grid-cols-[1fr_320px] gap-6">
         <div className="pl-card pl-soft-shadow p-5">
@@ -128,13 +151,11 @@ function FourierLab() {
             <div className="mt-3 text-xs pl-mono grid grid-cols-3 gap-2">
               <div className="text-muted-foreground">n</div><div className="text-muted-foreground">a_n</div><div className="text-muted-foreground">b_n</div>
               <div>0</div><div>{fmt(data.coeffs.a0, 3)}</div><div>—</div>
-              {data.coeffs.a.slice(0, 6).map((a, i) => (
-                <>
-                  <div key={`n${i}`}>{i + 1}</div>
-                  <div key={`a${i}`}>{fmt(a, 3)}</div>
-                  <div key={`b${i}`}>{fmt(data.coeffs.b[i], 3)}</div>
-                </>
-              ))}
+              {data.coeffs.a.slice(0, 6).flatMap((a, i) => [
+                <div key={`n${i}`}>{i + 1}</div>,
+                <div key={`a${i}`}>{fmt(a, 3)}</div>,
+                <div key={`b${i}`}>{fmt(data.coeffs.b[i], 3)}</div>,
+              ])}
             </div>
           </div>
         </aside>

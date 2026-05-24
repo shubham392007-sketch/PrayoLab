@@ -97,3 +97,24 @@ export const safeEval = (expr: string, scope: Record<string, number>) => {
 export const tex = (expr: string) => {
   try { return parse(expr).toTex(); } catch { return expr; }
 };
+
+/** Partial derivative ∂f/∂var, symbolic and simplified. */
+export const partial = (expr: string, v: string) => {
+  return simplify(derivative(expr, v)).toString();
+};
+
+/** Solve a square linear system A·x = b via Cramer's rule. */
+export function cramer(A: Mat, b: number[]) {
+  const n = A.length;
+  const D = det(A);
+  if (Math.abs(D) < 1e-12) throw new Error("System has no unique solution (det = 0).");
+  const xs: number[] = [];
+  const Di: number[] = [];
+  for (let i = 0; i < n; i++) {
+    const Ai = A.map((row, r) => row.map((v, c) => (c === i ? b[r] : v)));
+    const d = det(Ai);
+    Di.push(d);
+    xs.push(d / D);
+  }
+  return { D, Di, xs };
+}
