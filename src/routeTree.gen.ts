@@ -41,6 +41,7 @@ import { Route as LabsEquationsRouteImport } from './routes/labs.equations'
 import { Route as LabsDoubleIntegralsRouteImport } from './routes/labs.double-integrals'
 import { Route as LabsDifferentiationUnderIntegralRouteImport } from './routes/labs.differentiation-under-integral'
 import { Route as LabsDifferentialEquationsRouteImport } from './routes/labs.differential-equations'
+import { Route as LabsCramerRuleRouteImport } from './routes/labs.cramer-rule'
 
 const TheoryRoute = TheoryRouteImport.update({
   id: '/theory',
@@ -205,6 +206,11 @@ const LabsDifferentialEquationsRoute =
     path: '/differential-equations',
     getParentRoute: () => LabsRoute,
   } as any)
+const LabsCramerRuleRoute = LabsCramerRuleRouteImport.update({
+  id: '/cramer-rule',
+  path: '/cramer-rule',
+  getParentRoute: () => LabsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -225,6 +231,7 @@ export interface FileRoutesByFullPath {
   '/settings': typeof SettingsRoute
   '/signup': typeof SignupRoute
   '/theory': typeof TheoryRoute
+  '/labs/cramer-rule': typeof LabsCramerRuleRoute
   '/labs/differential-equations': typeof LabsDifferentialEquationsRoute
   '/labs/differentiation-under-integral': typeof LabsDifferentiationUnderIntegralRoute
   '/labs/double-integrals': typeof LabsDoubleIntegralsRoute
@@ -259,6 +266,7 @@ export interface FileRoutesByTo {
   '/settings': typeof SettingsRoute
   '/signup': typeof SignupRoute
   '/theory': typeof TheoryRoute
+  '/labs/cramer-rule': typeof LabsCramerRuleRoute
   '/labs/differential-equations': typeof LabsDifferentialEquationsRoute
   '/labs/differentiation-under-integral': typeof LabsDifferentiationUnderIntegralRoute
   '/labs/double-integrals': typeof LabsDoubleIntegralsRoute
@@ -294,6 +302,7 @@ export interface FileRoutesById {
   '/settings': typeof SettingsRoute
   '/signup': typeof SignupRoute
   '/theory': typeof TheoryRoute
+  '/labs/cramer-rule': typeof LabsCramerRuleRoute
   '/labs/differential-equations': typeof LabsDifferentialEquationsRoute
   '/labs/differentiation-under-integral': typeof LabsDifferentiationUnderIntegralRoute
   '/labs/double-integrals': typeof LabsDoubleIntegralsRoute
@@ -330,6 +339,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/signup'
     | '/theory'
+    | '/labs/cramer-rule'
     | '/labs/differential-equations'
     | '/labs/differentiation-under-integral'
     | '/labs/double-integrals'
@@ -364,6 +374,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/signup'
     | '/theory'
+    | '/labs/cramer-rule'
     | '/labs/differential-equations'
     | '/labs/differentiation-under-integral'
     | '/labs/double-integrals'
@@ -398,6 +409,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/signup'
     | '/theory'
+    | '/labs/cramer-rule'
     | '/labs/differential-equations'
     | '/labs/differentiation-under-integral'
     | '/labs/double-integrals'
@@ -661,10 +673,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LabsDifferentialEquationsRouteImport
       parentRoute: typeof LabsRoute
     }
+    '/labs/cramer-rule': {
+      id: '/labs/cramer-rule'
+      path: '/cramer-rule'
+      fullPath: '/labs/cramer-rule'
+      preLoaderRoute: typeof LabsCramerRuleRouteImport
+      parentRoute: typeof LabsRoute
+    }
   }
 }
 
 interface LabsRouteChildren {
+  LabsCramerRuleRoute: typeof LabsCramerRuleRoute
   LabsDifferentialEquationsRoute: typeof LabsDifferentialEquationsRoute
   LabsDifferentiationUnderIntegralRoute: typeof LabsDifferentiationUnderIntegralRoute
   LabsDoubleIntegralsRoute: typeof LabsDoubleIntegralsRoute
@@ -682,6 +702,7 @@ interface LabsRouteChildren {
 }
 
 const LabsRouteChildren: LabsRouteChildren = {
+  LabsCramerRuleRoute: LabsCramerRuleRoute,
   LabsDifferentialEquationsRoute: LabsDifferentialEquationsRoute,
   LabsDifferentiationUnderIntegralRoute: LabsDifferentiationUnderIntegralRoute,
   LabsDoubleIntegralsRoute: LabsDoubleIntegralsRoute,
