@@ -118,6 +118,13 @@ function RootShell({ children }: { children: React.ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
+  if (typeof document !== "undefined") {
+    const t = localStorage.getItem("prayolab.theme");
+    const prefersDark = window.matchMedia?.("(prefers-color-scheme: dark)").matches;
+    const dark = t === "Dark" || (t === "System" && prefersDark);
+    document.documentElement.classList.toggle("dark", !!dark);
+  }
+
   return (
     <QueryClientProvider client={queryClient}>
       <Outlet />
