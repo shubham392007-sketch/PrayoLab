@@ -33,6 +33,7 @@ import { Route as LabsMaximaMinimaRouteImport } from './routes/labs.maxima-minim
 import { Route as LabsMatricesRouteImport } from './routes/labs.matrices'
 import { Route as LabsLinearDependenceRouteImport } from './routes/labs.linear-dependence'
 import { Route as LabsJacobianRouteImport } from './routes/labs.jacobian'
+import { Route as LabsHarmonicAnalysisRouteImport } from './routes/labs.harmonic-analysis'
 import { Route as LabsFourierSeriesRouteImport } from './routes/labs.fourier-series'
 import { Route as LabsExpansionsRouteImport } from './routes/labs.expansions'
 import { Route as LabsEulerTheoremRouteImport } from './routes/labs.euler-theorem'
@@ -162,6 +163,11 @@ const LabsJacobianRoute = LabsJacobianRouteImport.update({
   path: '/jacobian',
   getParentRoute: () => LabsRoute,
 } as any)
+const LabsHarmonicAnalysisRoute = LabsHarmonicAnalysisRouteImport.update({
+  id: '/harmonic-analysis',
+  path: '/harmonic-analysis',
+  getParentRoute: () => LabsRoute,
+} as any)
 const LabsFourierSeriesRoute = LabsFourierSeriesRouteImport.update({
   id: '/fourier-series',
   path: '/fourier-series',
@@ -226,6 +232,7 @@ export interface FileRoutesByFullPath {
   '/labs/euler-theorem': typeof LabsEulerTheoremRoute
   '/labs/expansions': typeof LabsExpansionsRoute
   '/labs/fourier-series': typeof LabsFourierSeriesRoute
+  '/labs/harmonic-analysis': typeof LabsHarmonicAnalysisRoute
   '/labs/jacobian': typeof LabsJacobianRoute
   '/labs/linear-dependence': typeof LabsLinearDependenceRoute
   '/labs/matrices': typeof LabsMatricesRoute
@@ -259,6 +266,7 @@ export interface FileRoutesByTo {
   '/labs/euler-theorem': typeof LabsEulerTheoremRoute
   '/labs/expansions': typeof LabsExpansionsRoute
   '/labs/fourier-series': typeof LabsFourierSeriesRoute
+  '/labs/harmonic-analysis': typeof LabsHarmonicAnalysisRoute
   '/labs/jacobian': typeof LabsJacobianRoute
   '/labs/linear-dependence': typeof LabsLinearDependenceRoute
   '/labs/matrices': typeof LabsMatricesRoute
@@ -293,6 +301,7 @@ export interface FileRoutesById {
   '/labs/euler-theorem': typeof LabsEulerTheoremRoute
   '/labs/expansions': typeof LabsExpansionsRoute
   '/labs/fourier-series': typeof LabsFourierSeriesRoute
+  '/labs/harmonic-analysis': typeof LabsHarmonicAnalysisRoute
   '/labs/jacobian': typeof LabsJacobianRoute
   '/labs/linear-dependence': typeof LabsLinearDependenceRoute
   '/labs/matrices': typeof LabsMatricesRoute
@@ -328,6 +337,7 @@ export interface FileRouteTypes {
     | '/labs/euler-theorem'
     | '/labs/expansions'
     | '/labs/fourier-series'
+    | '/labs/harmonic-analysis'
     | '/labs/jacobian'
     | '/labs/linear-dependence'
     | '/labs/matrices'
@@ -361,6 +371,7 @@ export interface FileRouteTypes {
     | '/labs/euler-theorem'
     | '/labs/expansions'
     | '/labs/fourier-series'
+    | '/labs/harmonic-analysis'
     | '/labs/jacobian'
     | '/labs/linear-dependence'
     | '/labs/matrices'
@@ -394,6 +405,7 @@ export interface FileRouteTypes {
     | '/labs/euler-theorem'
     | '/labs/expansions'
     | '/labs/fourier-series'
+    | '/labs/harmonic-analysis'
     | '/labs/jacobian'
     | '/labs/linear-dependence'
     | '/labs/matrices'
@@ -593,6 +605,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LabsJacobianRouteImport
       parentRoute: typeof LabsRoute
     }
+    '/labs/harmonic-analysis': {
+      id: '/labs/harmonic-analysis'
+      path: '/harmonic-analysis'
+      fullPath: '/labs/harmonic-analysis'
+      preLoaderRoute: typeof LabsHarmonicAnalysisRouteImport
+      parentRoute: typeof LabsRoute
+    }
     '/labs/fourier-series': {
       id: '/labs/fourier-series'
       path: '/fourier-series'
@@ -653,6 +672,7 @@ interface LabsRouteChildren {
   LabsEulerTheoremRoute: typeof LabsEulerTheoremRoute
   LabsExpansionsRoute: typeof LabsExpansionsRoute
   LabsFourierSeriesRoute: typeof LabsFourierSeriesRoute
+  LabsHarmonicAnalysisRoute: typeof LabsHarmonicAnalysisRoute
   LabsJacobianRoute: typeof LabsJacobianRoute
   LabsLinearDependenceRoute: typeof LabsLinearDependenceRoute
   LabsMatricesRoute: typeof LabsMatricesRoute
@@ -669,6 +689,7 @@ const LabsRouteChildren: LabsRouteChildren = {
   LabsEulerTheoremRoute: LabsEulerTheoremRoute,
   LabsExpansionsRoute: LabsExpansionsRoute,
   LabsFourierSeriesRoute: LabsFourierSeriesRoute,
+  LabsHarmonicAnalysisRoute: LabsHarmonicAnalysisRoute,
   LabsJacobianRoute: LabsJacobianRoute,
   LabsLinearDependenceRoute: LabsLinearDependenceRoute,
   LabsMatricesRoute: LabsMatricesRoute,
