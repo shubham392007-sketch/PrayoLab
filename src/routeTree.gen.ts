@@ -29,6 +29,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as LabsPartialDifferentiationRouteImport } from './routes/labs.partial-differentiation'
 import { Route as LabsNthDerivativeRouteImport } from './routes/labs.nth-derivative'
+import { Route as LabsMaximaMinimaRouteImport } from './routes/labs.maxima-minima'
 import { Route as LabsMatricesRouteImport } from './routes/labs.matrices'
 import { Route as LabsLinearDependenceRouteImport } from './routes/labs.linear-dependence'
 import { Route as LabsJacobianRouteImport } from './routes/labs.jacobian'
@@ -141,6 +142,11 @@ const LabsNthDerivativeRoute = LabsNthDerivativeRouteImport.update({
   path: '/nth-derivative',
   getParentRoute: () => LabsRoute,
 } as any)
+const LabsMaximaMinimaRoute = LabsMaximaMinimaRouteImport.update({
+  id: '/maxima-minima',
+  path: '/maxima-minima',
+  getParentRoute: () => LabsRoute,
+} as any)
 const LabsMatricesRoute = LabsMatricesRouteImport.update({
   id: '/matrices',
   path: '/matrices',
@@ -223,6 +229,7 @@ export interface FileRoutesByFullPath {
   '/labs/jacobian': typeof LabsJacobianRoute
   '/labs/linear-dependence': typeof LabsLinearDependenceRoute
   '/labs/matrices': typeof LabsMatricesRoute
+  '/labs/maxima-minima': typeof LabsMaximaMinimaRoute
   '/labs/nth-derivative': typeof LabsNthDerivativeRoute
   '/labs/partial-differentiation': typeof LabsPartialDifferentiationRoute
 }
@@ -255,6 +262,7 @@ export interface FileRoutesByTo {
   '/labs/jacobian': typeof LabsJacobianRoute
   '/labs/linear-dependence': typeof LabsLinearDependenceRoute
   '/labs/matrices': typeof LabsMatricesRoute
+  '/labs/maxima-minima': typeof LabsMaximaMinimaRoute
   '/labs/nth-derivative': typeof LabsNthDerivativeRoute
   '/labs/partial-differentiation': typeof LabsPartialDifferentiationRoute
 }
@@ -288,6 +296,7 @@ export interface FileRoutesById {
   '/labs/jacobian': typeof LabsJacobianRoute
   '/labs/linear-dependence': typeof LabsLinearDependenceRoute
   '/labs/matrices': typeof LabsMatricesRoute
+  '/labs/maxima-minima': typeof LabsMaximaMinimaRoute
   '/labs/nth-derivative': typeof LabsNthDerivativeRoute
   '/labs/partial-differentiation': typeof LabsPartialDifferentiationRoute
 }
@@ -322,6 +331,7 @@ export interface FileRouteTypes {
     | '/labs/jacobian'
     | '/labs/linear-dependence'
     | '/labs/matrices'
+    | '/labs/maxima-minima'
     | '/labs/nth-derivative'
     | '/labs/partial-differentiation'
   fileRoutesByTo: FileRoutesByTo
@@ -354,6 +364,7 @@ export interface FileRouteTypes {
     | '/labs/jacobian'
     | '/labs/linear-dependence'
     | '/labs/matrices'
+    | '/labs/maxima-minima'
     | '/labs/nth-derivative'
     | '/labs/partial-differentiation'
   id:
@@ -386,6 +397,7 @@ export interface FileRouteTypes {
     | '/labs/jacobian'
     | '/labs/linear-dependence'
     | '/labs/matrices'
+    | '/labs/maxima-minima'
     | '/labs/nth-derivative'
     | '/labs/partial-differentiation'
   fileRoutesById: FileRoutesById
@@ -553,6 +565,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LabsNthDerivativeRouteImport
       parentRoute: typeof LabsRoute
     }
+    '/labs/maxima-minima': {
+      id: '/labs/maxima-minima'
+      path: '/maxima-minima'
+      fullPath: '/labs/maxima-minima'
+      preLoaderRoute: typeof LabsMaximaMinimaRouteImport
+      parentRoute: typeof LabsRoute
+    }
     '/labs/matrices': {
       id: '/labs/matrices'
       path: '/matrices'
@@ -637,6 +656,7 @@ interface LabsRouteChildren {
   LabsJacobianRoute: typeof LabsJacobianRoute
   LabsLinearDependenceRoute: typeof LabsLinearDependenceRoute
   LabsMatricesRoute: typeof LabsMatricesRoute
+  LabsMaximaMinimaRoute: typeof LabsMaximaMinimaRoute
   LabsNthDerivativeRoute: typeof LabsNthDerivativeRoute
   LabsPartialDifferentiationRoute: typeof LabsPartialDifferentiationRoute
 }
@@ -652,6 +672,7 @@ const LabsRouteChildren: LabsRouteChildren = {
   LabsJacobianRoute: LabsJacobianRoute,
   LabsLinearDependenceRoute: LabsLinearDependenceRoute,
   LabsMatricesRoute: LabsMatricesRoute,
+  LabsMaximaMinimaRoute: LabsMaximaMinimaRoute,
   LabsNthDerivativeRoute: LabsNthDerivativeRoute,
   LabsPartialDifferentiationRoute: LabsPartialDifferentiationRoute,
 }
