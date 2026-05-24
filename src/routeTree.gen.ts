@@ -33,6 +33,7 @@ import { Route as LabsMatricesRouteImport } from './routes/labs.matrices'
 import { Route as LabsFourierSeriesRouteImport } from './routes/labs.fourier-series'
 import { Route as LabsExpansionsRouteImport } from './routes/labs.expansions'
 import { Route as LabsEquationsRouteImport } from './routes/labs.equations'
+import { Route as LabsDoubleIntegralsRouteImport } from './routes/labs.double-integrals'
 import { Route as LabsDifferentialEquationsRouteImport } from './routes/labs.differential-equations'
 
 const TheoryRoute = TheoryRouteImport.update({
@@ -156,6 +157,11 @@ const LabsEquationsRoute = LabsEquationsRouteImport.update({
   path: '/equations',
   getParentRoute: () => LabsRoute,
 } as any)
+const LabsDoubleIntegralsRoute = LabsDoubleIntegralsRouteImport.update({
+  id: '/double-integrals',
+  path: '/double-integrals',
+  getParentRoute: () => LabsRoute,
+} as any)
 const LabsDifferentialEquationsRoute =
   LabsDifferentialEquationsRouteImport.update({
     id: '/differential-equations',
@@ -183,6 +189,7 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/theory': typeof TheoryRoute
   '/labs/differential-equations': typeof LabsDifferentialEquationsRoute
+  '/labs/double-integrals': typeof LabsDoubleIntegralsRoute
   '/labs/equations': typeof LabsEquationsRoute
   '/labs/expansions': typeof LabsExpansionsRoute
   '/labs/fourier-series': typeof LabsFourierSeriesRoute
@@ -210,6 +217,7 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/theory': typeof TheoryRoute
   '/labs/differential-equations': typeof LabsDifferentialEquationsRoute
+  '/labs/double-integrals': typeof LabsDoubleIntegralsRoute
   '/labs/equations': typeof LabsEquationsRoute
   '/labs/expansions': typeof LabsExpansionsRoute
   '/labs/fourier-series': typeof LabsFourierSeriesRoute
@@ -238,6 +246,7 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/theory': typeof TheoryRoute
   '/labs/differential-equations': typeof LabsDifferentialEquationsRoute
+  '/labs/double-integrals': typeof LabsDoubleIntegralsRoute
   '/labs/equations': typeof LabsEquationsRoute
   '/labs/expansions': typeof LabsExpansionsRoute
   '/labs/fourier-series': typeof LabsFourierSeriesRoute
@@ -267,6 +276,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/theory'
     | '/labs/differential-equations'
+    | '/labs/double-integrals'
     | '/labs/equations'
     | '/labs/expansions'
     | '/labs/fourier-series'
@@ -294,6 +304,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/theory'
     | '/labs/differential-equations'
+    | '/labs/double-integrals'
     | '/labs/equations'
     | '/labs/expansions'
     | '/labs/fourier-series'
@@ -321,6 +332,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/theory'
     | '/labs/differential-equations'
+    | '/labs/double-integrals'
     | '/labs/equations'
     | '/labs/expansions'
     | '/labs/fourier-series'
@@ -520,6 +532,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LabsEquationsRouteImport
       parentRoute: typeof LabsRoute
     }
+    '/labs/double-integrals': {
+      id: '/labs/double-integrals'
+      path: '/double-integrals'
+      fullPath: '/labs/double-integrals'
+      preLoaderRoute: typeof LabsDoubleIntegralsRouteImport
+      parentRoute: typeof LabsRoute
+    }
     '/labs/differential-equations': {
       id: '/labs/differential-equations'
       path: '/differential-equations'
@@ -532,6 +551,7 @@ declare module '@tanstack/react-router' {
 
 interface LabsRouteChildren {
   LabsDifferentialEquationsRoute: typeof LabsDifferentialEquationsRoute
+  LabsDoubleIntegralsRoute: typeof LabsDoubleIntegralsRoute
   LabsEquationsRoute: typeof LabsEquationsRoute
   LabsExpansionsRoute: typeof LabsExpansionsRoute
   LabsFourierSeriesRoute: typeof LabsFourierSeriesRoute
@@ -542,6 +562,7 @@ interface LabsRouteChildren {
 
 const LabsRouteChildren: LabsRouteChildren = {
   LabsDifferentialEquationsRoute: LabsDifferentialEquationsRoute,
+  LabsDoubleIntegralsRoute: LabsDoubleIntegralsRoute,
   LabsEquationsRoute: LabsEquationsRoute,
   LabsExpansionsRoute: LabsExpansionsRoute,
   LabsFourierSeriesRoute: LabsFourierSeriesRoute,
