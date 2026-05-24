@@ -34,6 +34,7 @@ import { Route as LabsFourierSeriesRouteImport } from './routes/labs.fourier-ser
 import { Route as LabsExpansionsRouteImport } from './routes/labs.expansions'
 import { Route as LabsEquationsRouteImport } from './routes/labs.equations'
 import { Route as LabsDoubleIntegralsRouteImport } from './routes/labs.double-integrals'
+import { Route as LabsDifferentiationUnderIntegralRouteImport } from './routes/labs.differentiation-under-integral'
 import { Route as LabsDifferentialEquationsRouteImport } from './routes/labs.differential-equations'
 
 const TheoryRoute = TheoryRouteImport.update({
@@ -162,6 +163,12 @@ const LabsDoubleIntegralsRoute = LabsDoubleIntegralsRouteImport.update({
   path: '/double-integrals',
   getParentRoute: () => LabsRoute,
 } as any)
+const LabsDifferentiationUnderIntegralRoute =
+  LabsDifferentiationUnderIntegralRouteImport.update({
+    id: '/differentiation-under-integral',
+    path: '/differentiation-under-integral',
+    getParentRoute: () => LabsRoute,
+  } as any)
 const LabsDifferentialEquationsRoute =
   LabsDifferentialEquationsRouteImport.update({
     id: '/differential-equations',
@@ -189,6 +196,7 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/theory': typeof TheoryRoute
   '/labs/differential-equations': typeof LabsDifferentialEquationsRoute
+  '/labs/differentiation-under-integral': typeof LabsDifferentiationUnderIntegralRoute
   '/labs/double-integrals': typeof LabsDoubleIntegralsRoute
   '/labs/equations': typeof LabsEquationsRoute
   '/labs/expansions': typeof LabsExpansionsRoute
@@ -217,6 +225,7 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/theory': typeof TheoryRoute
   '/labs/differential-equations': typeof LabsDifferentialEquationsRoute
+  '/labs/differentiation-under-integral': typeof LabsDifferentiationUnderIntegralRoute
   '/labs/double-integrals': typeof LabsDoubleIntegralsRoute
   '/labs/equations': typeof LabsEquationsRoute
   '/labs/expansions': typeof LabsExpansionsRoute
@@ -246,6 +255,7 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/theory': typeof TheoryRoute
   '/labs/differential-equations': typeof LabsDifferentialEquationsRoute
+  '/labs/differentiation-under-integral': typeof LabsDifferentiationUnderIntegralRoute
   '/labs/double-integrals': typeof LabsDoubleIntegralsRoute
   '/labs/equations': typeof LabsEquationsRoute
   '/labs/expansions': typeof LabsExpansionsRoute
@@ -276,6 +286,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/theory'
     | '/labs/differential-equations'
+    | '/labs/differentiation-under-integral'
     | '/labs/double-integrals'
     | '/labs/equations'
     | '/labs/expansions'
@@ -304,6 +315,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/theory'
     | '/labs/differential-equations'
+    | '/labs/differentiation-under-integral'
     | '/labs/double-integrals'
     | '/labs/equations'
     | '/labs/expansions'
@@ -332,6 +344,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/theory'
     | '/labs/differential-equations'
+    | '/labs/differentiation-under-integral'
     | '/labs/double-integrals'
     | '/labs/equations'
     | '/labs/expansions'
@@ -539,6 +552,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LabsDoubleIntegralsRouteImport
       parentRoute: typeof LabsRoute
     }
+    '/labs/differentiation-under-integral': {
+      id: '/labs/differentiation-under-integral'
+      path: '/differentiation-under-integral'
+      fullPath: '/labs/differentiation-under-integral'
+      preLoaderRoute: typeof LabsDifferentiationUnderIntegralRouteImport
+      parentRoute: typeof LabsRoute
+    }
     '/labs/differential-equations': {
       id: '/labs/differential-equations'
       path: '/differential-equations'
@@ -551,6 +571,7 @@ declare module '@tanstack/react-router' {
 
 interface LabsRouteChildren {
   LabsDifferentialEquationsRoute: typeof LabsDifferentialEquationsRoute
+  LabsDifferentiationUnderIntegralRoute: typeof LabsDifferentiationUnderIntegralRoute
   LabsDoubleIntegralsRoute: typeof LabsDoubleIntegralsRoute
   LabsEquationsRoute: typeof LabsEquationsRoute
   LabsExpansionsRoute: typeof LabsExpansionsRoute
@@ -562,6 +583,7 @@ interface LabsRouteChildren {
 
 const LabsRouteChildren: LabsRouteChildren = {
   LabsDifferentialEquationsRoute: LabsDifferentialEquationsRoute,
+  LabsDifferentiationUnderIntegralRoute: LabsDifferentiationUnderIntegralRoute,
   LabsDoubleIntegralsRoute: LabsDoubleIntegralsRoute,
   LabsEquationsRoute: LabsEquationsRoute,
   LabsExpansionsRoute: LabsExpansionsRoute,
