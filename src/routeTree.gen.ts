@@ -32,6 +32,7 @@ import { Route as LabsNthDerivativeRouteImport } from './routes/labs.nth-derivat
 import { Route as LabsMatricesRouteImport } from './routes/labs.matrices'
 import { Route as LabsFourierSeriesRouteImport } from './routes/labs.fourier-series'
 import { Route as LabsExpansionsRouteImport } from './routes/labs.expansions'
+import { Route as LabsEulerTheoremRouteImport } from './routes/labs.euler-theorem'
 import { Route as LabsEquationsRouteImport } from './routes/labs.equations'
 import { Route as LabsDoubleIntegralsRouteImport } from './routes/labs.double-integrals'
 import { Route as LabsDifferentiationUnderIntegralRouteImport } from './routes/labs.differentiation-under-integral'
@@ -153,6 +154,11 @@ const LabsExpansionsRoute = LabsExpansionsRouteImport.update({
   path: '/expansions',
   getParentRoute: () => LabsRoute,
 } as any)
+const LabsEulerTheoremRoute = LabsEulerTheoremRouteImport.update({
+  id: '/euler-theorem',
+  path: '/euler-theorem',
+  getParentRoute: () => LabsRoute,
+} as any)
 const LabsEquationsRoute = LabsEquationsRouteImport.update({
   id: '/equations',
   path: '/equations',
@@ -199,6 +205,7 @@ export interface FileRoutesByFullPath {
   '/labs/differentiation-under-integral': typeof LabsDifferentiationUnderIntegralRoute
   '/labs/double-integrals': typeof LabsDoubleIntegralsRoute
   '/labs/equations': typeof LabsEquationsRoute
+  '/labs/euler-theorem': typeof LabsEulerTheoremRoute
   '/labs/expansions': typeof LabsExpansionsRoute
   '/labs/fourier-series': typeof LabsFourierSeriesRoute
   '/labs/matrices': typeof LabsMatricesRoute
@@ -228,6 +235,7 @@ export interface FileRoutesByTo {
   '/labs/differentiation-under-integral': typeof LabsDifferentiationUnderIntegralRoute
   '/labs/double-integrals': typeof LabsDoubleIntegralsRoute
   '/labs/equations': typeof LabsEquationsRoute
+  '/labs/euler-theorem': typeof LabsEulerTheoremRoute
   '/labs/expansions': typeof LabsExpansionsRoute
   '/labs/fourier-series': typeof LabsFourierSeriesRoute
   '/labs/matrices': typeof LabsMatricesRoute
@@ -258,6 +266,7 @@ export interface FileRoutesById {
   '/labs/differentiation-under-integral': typeof LabsDifferentiationUnderIntegralRoute
   '/labs/double-integrals': typeof LabsDoubleIntegralsRoute
   '/labs/equations': typeof LabsEquationsRoute
+  '/labs/euler-theorem': typeof LabsEulerTheoremRoute
   '/labs/expansions': typeof LabsExpansionsRoute
   '/labs/fourier-series': typeof LabsFourierSeriesRoute
   '/labs/matrices': typeof LabsMatricesRoute
@@ -289,6 +298,7 @@ export interface FileRouteTypes {
     | '/labs/differentiation-under-integral'
     | '/labs/double-integrals'
     | '/labs/equations'
+    | '/labs/euler-theorem'
     | '/labs/expansions'
     | '/labs/fourier-series'
     | '/labs/matrices'
@@ -318,6 +328,7 @@ export interface FileRouteTypes {
     | '/labs/differentiation-under-integral'
     | '/labs/double-integrals'
     | '/labs/equations'
+    | '/labs/euler-theorem'
     | '/labs/expansions'
     | '/labs/fourier-series'
     | '/labs/matrices'
@@ -347,6 +358,7 @@ export interface FileRouteTypes {
     | '/labs/differentiation-under-integral'
     | '/labs/double-integrals'
     | '/labs/equations'
+    | '/labs/euler-theorem'
     | '/labs/expansions'
     | '/labs/fourier-series'
     | '/labs/matrices'
@@ -538,6 +550,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LabsExpansionsRouteImport
       parentRoute: typeof LabsRoute
     }
+    '/labs/euler-theorem': {
+      id: '/labs/euler-theorem'
+      path: '/euler-theorem'
+      fullPath: '/labs/euler-theorem'
+      preLoaderRoute: typeof LabsEulerTheoremRouteImport
+      parentRoute: typeof LabsRoute
+    }
     '/labs/equations': {
       id: '/labs/equations'
       path: '/equations'
@@ -574,6 +593,7 @@ interface LabsRouteChildren {
   LabsDifferentiationUnderIntegralRoute: typeof LabsDifferentiationUnderIntegralRoute
   LabsDoubleIntegralsRoute: typeof LabsDoubleIntegralsRoute
   LabsEquationsRoute: typeof LabsEquationsRoute
+  LabsEulerTheoremRoute: typeof LabsEulerTheoremRoute
   LabsExpansionsRoute: typeof LabsExpansionsRoute
   LabsFourierSeriesRoute: typeof LabsFourierSeriesRoute
   LabsMatricesRoute: typeof LabsMatricesRoute
@@ -586,6 +606,7 @@ const LabsRouteChildren: LabsRouteChildren = {
   LabsDifferentiationUnderIntegralRoute: LabsDifferentiationUnderIntegralRoute,
   LabsDoubleIntegralsRoute: LabsDoubleIntegralsRoute,
   LabsEquationsRoute: LabsEquationsRoute,
+  LabsEulerTheoremRoute: LabsEulerTheoremRoute,
   LabsExpansionsRoute: LabsExpansionsRoute,
   LabsFourierSeriesRoute: LabsFourierSeriesRoute,
   LabsMatricesRoute: LabsMatricesRoute,
