@@ -33,6 +33,7 @@ import { Route as LabsMatricesRouteImport } from './routes/labs.matrices'
 import { Route as LabsFourierSeriesRouteImport } from './routes/labs.fourier-series'
 import { Route as LabsExpansionsRouteImport } from './routes/labs.expansions'
 import { Route as LabsEquationsRouteImport } from './routes/labs.equations'
+import { Route as LabsDifferentialEquationsRouteImport } from './routes/labs.differential-equations'
 
 const TheoryRoute = TheoryRouteImport.update({
   id: '/theory',
@@ -155,6 +156,12 @@ const LabsEquationsRoute = LabsEquationsRouteImport.update({
   path: '/equations',
   getParentRoute: () => LabsRoute,
 } as any)
+const LabsDifferentialEquationsRoute =
+  LabsDifferentialEquationsRouteImport.update({
+    id: '/differential-equations',
+    path: '/differential-equations',
+    getParentRoute: () => LabsRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -175,6 +182,7 @@ export interface FileRoutesByFullPath {
   '/settings': typeof SettingsRoute
   '/signup': typeof SignupRoute
   '/theory': typeof TheoryRoute
+  '/labs/differential-equations': typeof LabsDifferentialEquationsRoute
   '/labs/equations': typeof LabsEquationsRoute
   '/labs/expansions': typeof LabsExpansionsRoute
   '/labs/fourier-series': typeof LabsFourierSeriesRoute
@@ -201,6 +209,7 @@ export interface FileRoutesByTo {
   '/settings': typeof SettingsRoute
   '/signup': typeof SignupRoute
   '/theory': typeof TheoryRoute
+  '/labs/differential-equations': typeof LabsDifferentialEquationsRoute
   '/labs/equations': typeof LabsEquationsRoute
   '/labs/expansions': typeof LabsExpansionsRoute
   '/labs/fourier-series': typeof LabsFourierSeriesRoute
@@ -228,6 +237,7 @@ export interface FileRoutesById {
   '/settings': typeof SettingsRoute
   '/signup': typeof SignupRoute
   '/theory': typeof TheoryRoute
+  '/labs/differential-equations': typeof LabsDifferentialEquationsRoute
   '/labs/equations': typeof LabsEquationsRoute
   '/labs/expansions': typeof LabsExpansionsRoute
   '/labs/fourier-series': typeof LabsFourierSeriesRoute
@@ -256,6 +266,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/signup'
     | '/theory'
+    | '/labs/differential-equations'
     | '/labs/equations'
     | '/labs/expansions'
     | '/labs/fourier-series'
@@ -282,6 +293,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/signup'
     | '/theory'
+    | '/labs/differential-equations'
     | '/labs/equations'
     | '/labs/expansions'
     | '/labs/fourier-series'
@@ -308,6 +320,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/signup'
     | '/theory'
+    | '/labs/differential-equations'
     | '/labs/equations'
     | '/labs/expansions'
     | '/labs/fourier-series'
@@ -507,10 +520,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LabsEquationsRouteImport
       parentRoute: typeof LabsRoute
     }
+    '/labs/differential-equations': {
+      id: '/labs/differential-equations'
+      path: '/differential-equations'
+      fullPath: '/labs/differential-equations'
+      preLoaderRoute: typeof LabsDifferentialEquationsRouteImport
+      parentRoute: typeof LabsRoute
+    }
   }
 }
 
 interface LabsRouteChildren {
+  LabsDifferentialEquationsRoute: typeof LabsDifferentialEquationsRoute
   LabsEquationsRoute: typeof LabsEquationsRoute
   LabsExpansionsRoute: typeof LabsExpansionsRoute
   LabsFourierSeriesRoute: typeof LabsFourierSeriesRoute
@@ -520,6 +541,7 @@ interface LabsRouteChildren {
 }
 
 const LabsRouteChildren: LabsRouteChildren = {
+  LabsDifferentialEquationsRoute: LabsDifferentialEquationsRoute,
   LabsEquationsRoute: LabsEquationsRoute,
   LabsExpansionsRoute: LabsExpansionsRoute,
   LabsFourierSeriesRoute: LabsFourierSeriesRoute,
