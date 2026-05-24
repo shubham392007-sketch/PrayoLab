@@ -30,6 +30,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as LabsPartialDifferentiationRouteImport } from './routes/labs.partial-differentiation'
 import { Route as LabsNthDerivativeRouteImport } from './routes/labs.nth-derivative'
 import { Route as LabsMatricesRouteImport } from './routes/labs.matrices'
+import { Route as LabsLinearDependenceRouteImport } from './routes/labs.linear-dependence'
 import { Route as LabsJacobianRouteImport } from './routes/labs.jacobian'
 import { Route as LabsFourierSeriesRouteImport } from './routes/labs.fourier-series'
 import { Route as LabsExpansionsRouteImport } from './routes/labs.expansions'
@@ -145,6 +146,11 @@ const LabsMatricesRoute = LabsMatricesRouteImport.update({
   path: '/matrices',
   getParentRoute: () => LabsRoute,
 } as any)
+const LabsLinearDependenceRoute = LabsLinearDependenceRouteImport.update({
+  id: '/linear-dependence',
+  path: '/linear-dependence',
+  getParentRoute: () => LabsRoute,
+} as any)
 const LabsJacobianRoute = LabsJacobianRouteImport.update({
   id: '/jacobian',
   path: '/jacobian',
@@ -215,6 +221,7 @@ export interface FileRoutesByFullPath {
   '/labs/expansions': typeof LabsExpansionsRoute
   '/labs/fourier-series': typeof LabsFourierSeriesRoute
   '/labs/jacobian': typeof LabsJacobianRoute
+  '/labs/linear-dependence': typeof LabsLinearDependenceRoute
   '/labs/matrices': typeof LabsMatricesRoute
   '/labs/nth-derivative': typeof LabsNthDerivativeRoute
   '/labs/partial-differentiation': typeof LabsPartialDifferentiationRoute
@@ -246,6 +253,7 @@ export interface FileRoutesByTo {
   '/labs/expansions': typeof LabsExpansionsRoute
   '/labs/fourier-series': typeof LabsFourierSeriesRoute
   '/labs/jacobian': typeof LabsJacobianRoute
+  '/labs/linear-dependence': typeof LabsLinearDependenceRoute
   '/labs/matrices': typeof LabsMatricesRoute
   '/labs/nth-derivative': typeof LabsNthDerivativeRoute
   '/labs/partial-differentiation': typeof LabsPartialDifferentiationRoute
@@ -278,6 +286,7 @@ export interface FileRoutesById {
   '/labs/expansions': typeof LabsExpansionsRoute
   '/labs/fourier-series': typeof LabsFourierSeriesRoute
   '/labs/jacobian': typeof LabsJacobianRoute
+  '/labs/linear-dependence': typeof LabsLinearDependenceRoute
   '/labs/matrices': typeof LabsMatricesRoute
   '/labs/nth-derivative': typeof LabsNthDerivativeRoute
   '/labs/partial-differentiation': typeof LabsPartialDifferentiationRoute
@@ -311,6 +320,7 @@ export interface FileRouteTypes {
     | '/labs/expansions'
     | '/labs/fourier-series'
     | '/labs/jacobian'
+    | '/labs/linear-dependence'
     | '/labs/matrices'
     | '/labs/nth-derivative'
     | '/labs/partial-differentiation'
@@ -342,6 +352,7 @@ export interface FileRouteTypes {
     | '/labs/expansions'
     | '/labs/fourier-series'
     | '/labs/jacobian'
+    | '/labs/linear-dependence'
     | '/labs/matrices'
     | '/labs/nth-derivative'
     | '/labs/partial-differentiation'
@@ -373,6 +384,7 @@ export interface FileRouteTypes {
     | '/labs/expansions'
     | '/labs/fourier-series'
     | '/labs/jacobian'
+    | '/labs/linear-dependence'
     | '/labs/matrices'
     | '/labs/nth-derivative'
     | '/labs/partial-differentiation'
@@ -548,6 +560,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LabsMatricesRouteImport
       parentRoute: typeof LabsRoute
     }
+    '/labs/linear-dependence': {
+      id: '/labs/linear-dependence'
+      path: '/linear-dependence'
+      fullPath: '/labs/linear-dependence'
+      preLoaderRoute: typeof LabsLinearDependenceRouteImport
+      parentRoute: typeof LabsRoute
+    }
     '/labs/jacobian': {
       id: '/labs/jacobian'
       path: '/jacobian'
@@ -616,6 +635,7 @@ interface LabsRouteChildren {
   LabsExpansionsRoute: typeof LabsExpansionsRoute
   LabsFourierSeriesRoute: typeof LabsFourierSeriesRoute
   LabsJacobianRoute: typeof LabsJacobianRoute
+  LabsLinearDependenceRoute: typeof LabsLinearDependenceRoute
   LabsMatricesRoute: typeof LabsMatricesRoute
   LabsNthDerivativeRoute: typeof LabsNthDerivativeRoute
   LabsPartialDifferentiationRoute: typeof LabsPartialDifferentiationRoute
@@ -630,6 +650,7 @@ const LabsRouteChildren: LabsRouteChildren = {
   LabsExpansionsRoute: LabsExpansionsRoute,
   LabsFourierSeriesRoute: LabsFourierSeriesRoute,
   LabsJacobianRoute: LabsJacobianRoute,
+  LabsLinearDependenceRoute: LabsLinearDependenceRoute,
   LabsMatricesRoute: LabsMatricesRoute,
   LabsNthDerivativeRoute: LabsNthDerivativeRoute,
   LabsPartialDifferentiationRoute: LabsPartialDifferentiationRoute,
