@@ -31,6 +31,7 @@ import { Route as LabsPartialDifferentiationRouteImport } from './routes/labs.pa
 import { Route as LabsNthDerivativeRouteImport } from './routes/labs.nth-derivative'
 import { Route as LabsMatricesRouteImport } from './routes/labs.matrices'
 import { Route as LabsFourierSeriesRouteImport } from './routes/labs.fourier-series'
+import { Route as LabsExpansionsRouteImport } from './routes/labs.expansions'
 import { Route as LabsEquationsRouteImport } from './routes/labs.equations'
 
 const TheoryRoute = TheoryRouteImport.update({
@@ -144,6 +145,11 @@ const LabsFourierSeriesRoute = LabsFourierSeriesRouteImport.update({
   path: '/fourier-series',
   getParentRoute: () => LabsRoute,
 } as any)
+const LabsExpansionsRoute = LabsExpansionsRouteImport.update({
+  id: '/expansions',
+  path: '/expansions',
+  getParentRoute: () => LabsRoute,
+} as any)
 const LabsEquationsRoute = LabsEquationsRouteImport.update({
   id: '/equations',
   path: '/equations',
@@ -170,6 +176,7 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/theory': typeof TheoryRoute
   '/labs/equations': typeof LabsEquationsRoute
+  '/labs/expansions': typeof LabsExpansionsRoute
   '/labs/fourier-series': typeof LabsFourierSeriesRoute
   '/labs/matrices': typeof LabsMatricesRoute
   '/labs/nth-derivative': typeof LabsNthDerivativeRoute
@@ -195,6 +202,7 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/theory': typeof TheoryRoute
   '/labs/equations': typeof LabsEquationsRoute
+  '/labs/expansions': typeof LabsExpansionsRoute
   '/labs/fourier-series': typeof LabsFourierSeriesRoute
   '/labs/matrices': typeof LabsMatricesRoute
   '/labs/nth-derivative': typeof LabsNthDerivativeRoute
@@ -221,6 +229,7 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/theory': typeof TheoryRoute
   '/labs/equations': typeof LabsEquationsRoute
+  '/labs/expansions': typeof LabsExpansionsRoute
   '/labs/fourier-series': typeof LabsFourierSeriesRoute
   '/labs/matrices': typeof LabsMatricesRoute
   '/labs/nth-derivative': typeof LabsNthDerivativeRoute
@@ -248,6 +257,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/theory'
     | '/labs/equations'
+    | '/labs/expansions'
     | '/labs/fourier-series'
     | '/labs/matrices'
     | '/labs/nth-derivative'
@@ -273,6 +283,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/theory'
     | '/labs/equations'
+    | '/labs/expansions'
     | '/labs/fourier-series'
     | '/labs/matrices'
     | '/labs/nth-derivative'
@@ -298,6 +309,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/theory'
     | '/labs/equations'
+    | '/labs/expansions'
     | '/labs/fourier-series'
     | '/labs/matrices'
     | '/labs/nth-derivative'
@@ -481,6 +493,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LabsFourierSeriesRouteImport
       parentRoute: typeof LabsRoute
     }
+    '/labs/expansions': {
+      id: '/labs/expansions'
+      path: '/expansions'
+      fullPath: '/labs/expansions'
+      preLoaderRoute: typeof LabsExpansionsRouteImport
+      parentRoute: typeof LabsRoute
+    }
     '/labs/equations': {
       id: '/labs/equations'
       path: '/equations'
@@ -493,6 +512,7 @@ declare module '@tanstack/react-router' {
 
 interface LabsRouteChildren {
   LabsEquationsRoute: typeof LabsEquationsRoute
+  LabsExpansionsRoute: typeof LabsExpansionsRoute
   LabsFourierSeriesRoute: typeof LabsFourierSeriesRoute
   LabsMatricesRoute: typeof LabsMatricesRoute
   LabsNthDerivativeRoute: typeof LabsNthDerivativeRoute
@@ -501,6 +521,7 @@ interface LabsRouteChildren {
 
 const LabsRouteChildren: LabsRouteChildren = {
   LabsEquationsRoute: LabsEquationsRoute,
+  LabsExpansionsRoute: LabsExpansionsRoute,
   LabsFourierSeriesRoute: LabsFourierSeriesRoute,
   LabsMatricesRoute: LabsMatricesRoute,
   LabsNthDerivativeRoute: LabsNthDerivativeRoute,
