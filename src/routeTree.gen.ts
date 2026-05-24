@@ -29,18 +29,9 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as LabsPartialDifferentiationRouteImport } from './routes/labs.partial-differentiation'
 import { Route as LabsNthDerivativeRouteImport } from './routes/labs.nth-derivative'
-import { Route as LabsMaximaMinimaRouteImport } from './routes/labs.maxima-minima'
 import { Route as LabsMatricesRouteImport } from './routes/labs.matrices'
-import { Route as LabsLinearDependenceRouteImport } from './routes/labs.linear-dependence'
-import { Route as LabsJacobianRouteImport } from './routes/labs.jacobian'
-import { Route as LabsHarmonicAnalysisRouteImport } from './routes/labs.harmonic-analysis'
 import { Route as LabsFourierSeriesRouteImport } from './routes/labs.fourier-series'
-import { Route as LabsExpansionsRouteImport } from './routes/labs.expansions'
-import { Route as LabsEulerTheoremRouteImport } from './routes/labs.euler-theorem'
 import { Route as LabsEquationsRouteImport } from './routes/labs.equations'
-import { Route as LabsDoubleIntegralsRouteImport } from './routes/labs.double-integrals'
-import { Route as LabsDifferentiationUnderIntegralRouteImport } from './routes/labs.differentiation-under-integral'
-import { Route as LabsDifferentialEquationsRouteImport } from './routes/labs.differential-equations'
 
 const TheoryRoute = TheoryRouteImport.update({
   id: '/theory',
@@ -143,29 +134,9 @@ const LabsNthDerivativeRoute = LabsNthDerivativeRouteImport.update({
   path: '/nth-derivative',
   getParentRoute: () => LabsRoute,
 } as any)
-const LabsMaximaMinimaRoute = LabsMaximaMinimaRouteImport.update({
-  id: '/maxima-minima',
-  path: '/maxima-minima',
-  getParentRoute: () => LabsRoute,
-} as any)
 const LabsMatricesRoute = LabsMatricesRouteImport.update({
   id: '/matrices',
   path: '/matrices',
-  getParentRoute: () => LabsRoute,
-} as any)
-const LabsLinearDependenceRoute = LabsLinearDependenceRouteImport.update({
-  id: '/linear-dependence',
-  path: '/linear-dependence',
-  getParentRoute: () => LabsRoute,
-} as any)
-const LabsJacobianRoute = LabsJacobianRouteImport.update({
-  id: '/jacobian',
-  path: '/jacobian',
-  getParentRoute: () => LabsRoute,
-} as any)
-const LabsHarmonicAnalysisRoute = LabsHarmonicAnalysisRouteImport.update({
-  id: '/harmonic-analysis',
-  path: '/harmonic-analysis',
   getParentRoute: () => LabsRoute,
 } as any)
 const LabsFourierSeriesRoute = LabsFourierSeriesRouteImport.update({
@@ -173,38 +144,11 @@ const LabsFourierSeriesRoute = LabsFourierSeriesRouteImport.update({
   path: '/fourier-series',
   getParentRoute: () => LabsRoute,
 } as any)
-const LabsExpansionsRoute = LabsExpansionsRouteImport.update({
-  id: '/expansions',
-  path: '/expansions',
-  getParentRoute: () => LabsRoute,
-} as any)
-const LabsEulerTheoremRoute = LabsEulerTheoremRouteImport.update({
-  id: '/euler-theorem',
-  path: '/euler-theorem',
-  getParentRoute: () => LabsRoute,
-} as any)
 const LabsEquationsRoute = LabsEquationsRouteImport.update({
   id: '/equations',
   path: '/equations',
   getParentRoute: () => LabsRoute,
 } as any)
-const LabsDoubleIntegralsRoute = LabsDoubleIntegralsRouteImport.update({
-  id: '/double-integrals',
-  path: '/double-integrals',
-  getParentRoute: () => LabsRoute,
-} as any)
-const LabsDifferentiationUnderIntegralRoute =
-  LabsDifferentiationUnderIntegralRouteImport.update({
-    id: '/differentiation-under-integral',
-    path: '/differentiation-under-integral',
-    getParentRoute: () => LabsRoute,
-  } as any)
-const LabsDifferentialEquationsRoute =
-  LabsDifferentialEquationsRouteImport.update({
-    id: '/differential-equations',
-    path: '/differential-equations',
-    getParentRoute: () => LabsRoute,
-  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -225,18 +169,9 @@ export interface FileRoutesByFullPath {
   '/settings': typeof SettingsRoute
   '/signup': typeof SignupRoute
   '/theory': typeof TheoryRoute
-  '/labs/differential-equations': typeof LabsDifferentialEquationsRoute
-  '/labs/differentiation-under-integral': typeof LabsDifferentiationUnderIntegralRoute
-  '/labs/double-integrals': typeof LabsDoubleIntegralsRoute
   '/labs/equations': typeof LabsEquationsRoute
-  '/labs/euler-theorem': typeof LabsEulerTheoremRoute
-  '/labs/expansions': typeof LabsExpansionsRoute
   '/labs/fourier-series': typeof LabsFourierSeriesRoute
-  '/labs/harmonic-analysis': typeof LabsHarmonicAnalysisRoute
-  '/labs/jacobian': typeof LabsJacobianRoute
-  '/labs/linear-dependence': typeof LabsLinearDependenceRoute
   '/labs/matrices': typeof LabsMatricesRoute
-  '/labs/maxima-minima': typeof LabsMaximaMinimaRoute
   '/labs/nth-derivative': typeof LabsNthDerivativeRoute
   '/labs/partial-differentiation': typeof LabsPartialDifferentiationRoute
 }
@@ -259,18 +194,9 @@ export interface FileRoutesByTo {
   '/settings': typeof SettingsRoute
   '/signup': typeof SignupRoute
   '/theory': typeof TheoryRoute
-  '/labs/differential-equations': typeof LabsDifferentialEquationsRoute
-  '/labs/differentiation-under-integral': typeof LabsDifferentiationUnderIntegralRoute
-  '/labs/double-integrals': typeof LabsDoubleIntegralsRoute
   '/labs/equations': typeof LabsEquationsRoute
-  '/labs/euler-theorem': typeof LabsEulerTheoremRoute
-  '/labs/expansions': typeof LabsExpansionsRoute
   '/labs/fourier-series': typeof LabsFourierSeriesRoute
-  '/labs/harmonic-analysis': typeof LabsHarmonicAnalysisRoute
-  '/labs/jacobian': typeof LabsJacobianRoute
-  '/labs/linear-dependence': typeof LabsLinearDependenceRoute
   '/labs/matrices': typeof LabsMatricesRoute
-  '/labs/maxima-minima': typeof LabsMaximaMinimaRoute
   '/labs/nth-derivative': typeof LabsNthDerivativeRoute
   '/labs/partial-differentiation': typeof LabsPartialDifferentiationRoute
 }
@@ -294,18 +220,9 @@ export interface FileRoutesById {
   '/settings': typeof SettingsRoute
   '/signup': typeof SignupRoute
   '/theory': typeof TheoryRoute
-  '/labs/differential-equations': typeof LabsDifferentialEquationsRoute
-  '/labs/differentiation-under-integral': typeof LabsDifferentiationUnderIntegralRoute
-  '/labs/double-integrals': typeof LabsDoubleIntegralsRoute
   '/labs/equations': typeof LabsEquationsRoute
-  '/labs/euler-theorem': typeof LabsEulerTheoremRoute
-  '/labs/expansions': typeof LabsExpansionsRoute
   '/labs/fourier-series': typeof LabsFourierSeriesRoute
-  '/labs/harmonic-analysis': typeof LabsHarmonicAnalysisRoute
-  '/labs/jacobian': typeof LabsJacobianRoute
-  '/labs/linear-dependence': typeof LabsLinearDependenceRoute
   '/labs/matrices': typeof LabsMatricesRoute
-  '/labs/maxima-minima': typeof LabsMaximaMinimaRoute
   '/labs/nth-derivative': typeof LabsNthDerivativeRoute
   '/labs/partial-differentiation': typeof LabsPartialDifferentiationRoute
 }
@@ -330,18 +247,9 @@ export interface FileRouteTypes {
     | '/settings'
     | '/signup'
     | '/theory'
-    | '/labs/differential-equations'
-    | '/labs/differentiation-under-integral'
-    | '/labs/double-integrals'
     | '/labs/equations'
-    | '/labs/euler-theorem'
-    | '/labs/expansions'
     | '/labs/fourier-series'
-    | '/labs/harmonic-analysis'
-    | '/labs/jacobian'
-    | '/labs/linear-dependence'
     | '/labs/matrices'
-    | '/labs/maxima-minima'
     | '/labs/nth-derivative'
     | '/labs/partial-differentiation'
   fileRoutesByTo: FileRoutesByTo
@@ -364,18 +272,9 @@ export interface FileRouteTypes {
     | '/settings'
     | '/signup'
     | '/theory'
-    | '/labs/differential-equations'
-    | '/labs/differentiation-under-integral'
-    | '/labs/double-integrals'
     | '/labs/equations'
-    | '/labs/euler-theorem'
-    | '/labs/expansions'
     | '/labs/fourier-series'
-    | '/labs/harmonic-analysis'
-    | '/labs/jacobian'
-    | '/labs/linear-dependence'
     | '/labs/matrices'
-    | '/labs/maxima-minima'
     | '/labs/nth-derivative'
     | '/labs/partial-differentiation'
   id:
@@ -398,18 +297,9 @@ export interface FileRouteTypes {
     | '/settings'
     | '/signup'
     | '/theory'
-    | '/labs/differential-equations'
-    | '/labs/differentiation-under-integral'
-    | '/labs/double-integrals'
     | '/labs/equations'
-    | '/labs/euler-theorem'
-    | '/labs/expansions'
     | '/labs/fourier-series'
-    | '/labs/harmonic-analysis'
-    | '/labs/jacobian'
-    | '/labs/linear-dependence'
     | '/labs/matrices'
-    | '/labs/maxima-minima'
     | '/labs/nth-derivative'
     | '/labs/partial-differentiation'
   fileRoutesById: FileRoutesById
@@ -577,39 +467,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LabsNthDerivativeRouteImport
       parentRoute: typeof LabsRoute
     }
-    '/labs/maxima-minima': {
-      id: '/labs/maxima-minima'
-      path: '/maxima-minima'
-      fullPath: '/labs/maxima-minima'
-      preLoaderRoute: typeof LabsMaximaMinimaRouteImport
-      parentRoute: typeof LabsRoute
-    }
     '/labs/matrices': {
       id: '/labs/matrices'
       path: '/matrices'
       fullPath: '/labs/matrices'
       preLoaderRoute: typeof LabsMatricesRouteImport
-      parentRoute: typeof LabsRoute
-    }
-    '/labs/linear-dependence': {
-      id: '/labs/linear-dependence'
-      path: '/linear-dependence'
-      fullPath: '/labs/linear-dependence'
-      preLoaderRoute: typeof LabsLinearDependenceRouteImport
-      parentRoute: typeof LabsRoute
-    }
-    '/labs/jacobian': {
-      id: '/labs/jacobian'
-      path: '/jacobian'
-      fullPath: '/labs/jacobian'
-      preLoaderRoute: typeof LabsJacobianRouteImport
-      parentRoute: typeof LabsRoute
-    }
-    '/labs/harmonic-analysis': {
-      id: '/labs/harmonic-analysis'
-      path: '/harmonic-analysis'
-      fullPath: '/labs/harmonic-analysis'
-      preLoaderRoute: typeof LabsHarmonicAnalysisRouteImport
       parentRoute: typeof LabsRoute
     }
     '/labs/fourier-series': {
@@ -619,20 +481,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LabsFourierSeriesRouteImport
       parentRoute: typeof LabsRoute
     }
-    '/labs/expansions': {
-      id: '/labs/expansions'
-      path: '/expansions'
-      fullPath: '/labs/expansions'
-      preLoaderRoute: typeof LabsExpansionsRouteImport
-      parentRoute: typeof LabsRoute
-    }
-    '/labs/euler-theorem': {
-      id: '/labs/euler-theorem'
-      path: '/euler-theorem'
-      fullPath: '/labs/euler-theorem'
-      preLoaderRoute: typeof LabsEulerTheoremRouteImport
-      parentRoute: typeof LabsRoute
-    }
     '/labs/equations': {
       id: '/labs/equations'
       path: '/equations'
@@ -640,60 +488,21 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LabsEquationsRouteImport
       parentRoute: typeof LabsRoute
     }
-    '/labs/double-integrals': {
-      id: '/labs/double-integrals'
-      path: '/double-integrals'
-      fullPath: '/labs/double-integrals'
-      preLoaderRoute: typeof LabsDoubleIntegralsRouteImport
-      parentRoute: typeof LabsRoute
-    }
-    '/labs/differentiation-under-integral': {
-      id: '/labs/differentiation-under-integral'
-      path: '/differentiation-under-integral'
-      fullPath: '/labs/differentiation-under-integral'
-      preLoaderRoute: typeof LabsDifferentiationUnderIntegralRouteImport
-      parentRoute: typeof LabsRoute
-    }
-    '/labs/differential-equations': {
-      id: '/labs/differential-equations'
-      path: '/differential-equations'
-      fullPath: '/labs/differential-equations'
-      preLoaderRoute: typeof LabsDifferentialEquationsRouteImport
-      parentRoute: typeof LabsRoute
-    }
   }
 }
 
 interface LabsRouteChildren {
-  LabsDifferentialEquationsRoute: typeof LabsDifferentialEquationsRoute
-  LabsDifferentiationUnderIntegralRoute: typeof LabsDifferentiationUnderIntegralRoute
-  LabsDoubleIntegralsRoute: typeof LabsDoubleIntegralsRoute
   LabsEquationsRoute: typeof LabsEquationsRoute
-  LabsEulerTheoremRoute: typeof LabsEulerTheoremRoute
-  LabsExpansionsRoute: typeof LabsExpansionsRoute
   LabsFourierSeriesRoute: typeof LabsFourierSeriesRoute
-  LabsHarmonicAnalysisRoute: typeof LabsHarmonicAnalysisRoute
-  LabsJacobianRoute: typeof LabsJacobianRoute
-  LabsLinearDependenceRoute: typeof LabsLinearDependenceRoute
   LabsMatricesRoute: typeof LabsMatricesRoute
-  LabsMaximaMinimaRoute: typeof LabsMaximaMinimaRoute
   LabsNthDerivativeRoute: typeof LabsNthDerivativeRoute
   LabsPartialDifferentiationRoute: typeof LabsPartialDifferentiationRoute
 }
 
 const LabsRouteChildren: LabsRouteChildren = {
-  LabsDifferentialEquationsRoute: LabsDifferentialEquationsRoute,
-  LabsDifferentiationUnderIntegralRoute: LabsDifferentiationUnderIntegralRoute,
-  LabsDoubleIntegralsRoute: LabsDoubleIntegralsRoute,
   LabsEquationsRoute: LabsEquationsRoute,
-  LabsEulerTheoremRoute: LabsEulerTheoremRoute,
-  LabsExpansionsRoute: LabsExpansionsRoute,
   LabsFourierSeriesRoute: LabsFourierSeriesRoute,
-  LabsHarmonicAnalysisRoute: LabsHarmonicAnalysisRoute,
-  LabsJacobianRoute: LabsJacobianRoute,
-  LabsLinearDependenceRoute: LabsLinearDependenceRoute,
   LabsMatricesRoute: LabsMatricesRoute,
-  LabsMaximaMinimaRoute: LabsMaximaMinimaRoute,
   LabsNthDerivativeRoute: LabsNthDerivativeRoute,
   LabsPartialDifferentiationRoute: LabsPartialDifferentiationRoute,
 }
@@ -723,3 +532,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
