@@ -21,13 +21,22 @@ function Page() {
         const M = parseMat(A);
         const B = b.split(/[\s,]+/).filter(Boolean).map(Number);
         const { D, Di, xs } = cramer(M, B);
+        const replaceCol = (mat: number[][], col: number, vec: number[]) =>
+          mat.map((row, r) => row.map((v, c) => (c === col ? vec[r] : v)));
+        const steps: { title: string; tex?: string; note?: string }[] = [
+          { title: "Write the system in matrix form", tex: `A\\,\\mathbf{x} = \\mathbf{b}` },
+          { title: "Coefficient matrix A", tex: `A = ${matToTex(M)}` },
+          { title: "Right-hand side b", tex: `\\mathbf{b} = ${matToTex(B.map((v) => [v]))}` },
+          { title: "Check that the system has a unique solution", tex: `D = \\det(A) = ${fmt(D)}`, note: Math.abs(D) < 1e-12 ? "det(A) = 0 — Cramer's rule does not apply." : "det(A) ≠ 0, so A is invertible and the system has a unique solution." },
+        ];
+        Di.forEach((d, i) => {
+          const Ai = replaceCol(M, i, B);
+          steps.push({ title: `Form A_${i + 1} by replacing column ${i + 1} with b`, tex: `A_{${i + 1}} = ${matToTex(Ai)}` });
+          steps.push({ title: `Determinant of A_${i + 1}`, tex: `D_{${i + 1}} = \\det(A_{${i + 1}}) = ${fmt(d)}` });
+          steps.push({ title: `Apply Cramer's rule for x_${i + 1}`, tex: `x_{${i + 1}} = \\dfrac{D_{${i + 1}}}{D} = \\dfrac{${fmt(d)}}{${fmt(D)}} = ${fmt(xs[i])}` });
+        });
         return {
-          steps: [
-            { title: "Coefficient matrix A", tex: `A = ${matToTex(M)}` },
-            { title: "RHS vector b", tex: `b = ${matToTex(B.map((v) => [v]))}` },
-            { title: "Compute det(A)", tex: `D = ${fmt(D)}` },
-            ...Di.map((d, i) => ({ title: `Replace column ${i + 1} with b`, tex: `D_{${i + 1}} = ${fmt(d)}` })),
-          ],
+          steps,
           result: xs.map((x, i) => `x_{${i + 1}} = ${fmt(x)}`).join(",\\quad "),
         };
       }}

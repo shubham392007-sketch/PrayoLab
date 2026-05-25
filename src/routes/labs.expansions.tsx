@@ -20,10 +20,14 @@ function Page() {
       compute={({ expr, a, n }) => {
         const center = parseFloat(a || "0");
         const order = Math.max(1, Math.min(10, parseInt(n || "5", 10)));
-        const steps: { title: string; tex?: string }[] = [{ title: "Given function", tex: `f(x) = ${tex(expr)}` }];
+        const steps: { title: string; tex?: string; note?: string }[] = [
+          { title: "Given function and expansion centre", tex: `f(x) = ${tex(expr)},\\quad a = ${center},\\quad \\text{order } n = ${order}` },
+          { title: "Taylor series formula", tex: `f(x) = \\sum_{k=0}^{\\infty} \\dfrac{f^{(k)}(a)}{k!}(x - a)^k` },
+        ];
         const terms: string[] = [];
         let cur = expr;
         for (let k = 0; k <= order; k++) {
+          const fkTex = tex(cur);
           const val = parse(cur).evaluate({ x: center });
           const coef = val / factorial(k);
           if (Math.abs(coef) > 1e-12) {
@@ -31,10 +35,13 @@ function Page() {
             const ac = Math.abs(coef);
             terms.push(`${sign} ${ac.toFixed(6)} (x${center === 0 ? "" : ` - ${center}`})^{${k}}`);
           }
-          steps.push({ title: `Term k=${k}`, tex: `\\frac{f^{(${k})}(${center})}{${k}!}(x-${center})^{${k}} = ${coef.toFixed(6)} (x-${center})^{${k}}` });
+          steps.push({ title: `Order k = ${k} — derivative`, tex: `f^{(${k})}(x) = ${fkTex}` });
+          steps.push({ title: `Evaluate at x = ${center}`, tex: `f^{(${k})}(${center}) = ${val.toFixed(6)}` });
+          steps.push({ title: `Form the k = ${k} term`, tex: `\\dfrac{f^{(${k})}(${center})}{${k}!}(x - ${center})^{${k}} = \\dfrac{${val.toFixed(6)}}{${factorial(k)}}(x - ${center})^{${k}} = ${coef.toFixed(6)} (x - ${center})^{${k}}` });
           cur = simplify(derivative(cur, "x")).toString();
         }
         const series = terms.join(" ").replace(/^\+\s*/, "");
+        steps.push({ title: "Add all retained terms", note: `Truncation error is O((x − a)^${order + 1}) by Taylor's theorem.` });
         return { steps, result: `f(x) \\approx ${series}` };
       }}
     />
