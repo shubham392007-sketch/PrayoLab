@@ -167,10 +167,10 @@
     font-size: .75rem; color: var(--muted-foreground);
   }
   .pl-card {
-    background: var(--card);
     border: 1px solid var(--border);
     border-radius: var(--radius);
   }
+  .pl-card:not([class*="bg-"]) { background: var(--card); }
   .pl-soft-shadow { box-shadow: 0 1px 0 rgba(17,17,17,.02), 0 8px 24px -12px rgba(17,17,17,.08); }
   .pl-mono { font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
 }
