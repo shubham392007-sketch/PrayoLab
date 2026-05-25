@@ -19,19 +19,27 @@ function Page() {
       compute={({ expr, a, b, t }) => {
         const dft = partial(expr, "t");
         const A = parseFloat(a), B = parseFloat(b), T = parseFloat(t);
-        const node = parse(dft);
+        const dnode = parse(dft);
+        const fnode = parse(expr);
         const N = 400, h = (B - A) / N;
-        let s = 0.5 * (node.evaluate({ x: A, t: T }) + node.evaluate({ x: B, t: T }));
-        for (let i = 1; i < N; i++) s += node.evaluate({ x: A + i * h, t: T });
-        const val = s * h;
+        const trap = (g: (x: number) => number) => {
+          let s = 0.5 * (g(A) + g(B));
+          for (let i = 1; i < N; i++) s += g(A + i * h);
+          return s * h;
+        };
+        const Iv = trap((x) => fnode.evaluate({ x, t: T }));
+        const Ipv = trap((x) => dnode.evaluate({ x, t: T }));
         return {
           steps: [
-            { title: "Integral", tex: `I(t) = \\int_{${a}}^{${b}} ${tex(expr)} \\, dx` },
-            { title: "Leibniz rule", tex: `I'(t) = \\int_{${a}}^{${b}} \\dfrac{\\partial}{\\partial t} ${tex(expr)} \\, dx` },
-            { title: "∂f/∂t", tex: `\\dfrac{\\partial f}{\\partial t} = ${tex(dft)}` },
-            { title: "Numeric value at t = " + t, note: "Trapezoidal rule with 400 panels." },
+            { title: "Define the parameter-dependent integral", tex: `I(t) = \\int_{${a}}^{${b}} ${tex(expr)} \\, dx` },
+            { title: "Leibniz rule (fixed limits)", tex: `\\dfrac{dI}{dt} = \\int_{${a}}^{${b}} \\dfrac{\\partial f}{\\partial t}(x, t) \\, dx`, note: "Valid when f and ∂f/∂t are continuous in x and t on the integration domain." },
+            { title: "Compute the integrand's partial derivative", tex: `\\dfrac{\\partial f}{\\partial t} = \\dfrac{\\partial}{\\partial t}\\left(${tex(expr)}\\right) = ${tex(dft)}` },
+            { title: "Substitute back into the Leibniz formula", tex: `I'(t) = \\int_{${a}}^{${b}} ${tex(dft)} \\, dx` },
+            { title: `Evaluate I(t) numerically at t = ${t}`, note: `Trapezoidal rule, N = ${N} panels → I(${t}) ≈ ${Iv.toFixed(8)}` },
+            { title: `Evaluate I'(t) numerically at t = ${t}`, note: `Same scheme applied to ∂f/∂t → I'(${t}) ≈ ${Ipv.toFixed(8)}` },
+            { title: "Step size", tex: `h = \\dfrac{b - a}{N} = ${h.toFixed(6)}` },
           ],
-          result: `I'(${t}) \\approx ${val.toFixed(8)}`,
+          result: `I'(${t}) \\approx ${Ipv.toFixed(8)},\\quad I(${t}) \\approx ${Iv.toFixed(8)}`,
         };
       }}
     />
