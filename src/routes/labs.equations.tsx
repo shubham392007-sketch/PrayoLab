@@ -5,19 +5,19 @@ import { simplify, parse, derivative } from "mathjs";
 
 export const Route = createFileRoute("/labs/equations")({ component: Page });
 
-/** Newton's method to find a real root of f(x) = 0 near x0. */
+/** Newton's method to find a real root of f(x) = 0 near x0. Returns per-iteration details. */
 function newton(f: (x: number) => number, df: (x: number) => number, x0: number) {
   let x = x0;
-  const it: number[] = [x];
+  const iters: { k: number; xk: number; fxk: number; dfxk: number; xk1: number }[] = [];
   for (let i = 0; i < 50; i++) {
-    const d = df(x);
+    const fx = f(x), d = df(x);
     if (Math.abs(d) < 1e-12) break;
-    const nx = x - f(x) / d;
-    it.push(nx);
+    const nx = x - fx / d;
+    iters.push({ k: i, xk: x, fxk: fx, dfxk: d, xk1: nx });
     if (Math.abs(nx - x) < 1e-10) { x = nx; break; }
     x = nx;
   }
-  return { x, it };
+  return { x, iters };
 }
 
 function Page() {
@@ -34,15 +34,25 @@ function Page() {
         const dnode = derivative(expr, "x");
         const f = (x: number) => node.evaluate({ x });
         const df = (x: number) => dnode.evaluate({ x });
-        const { x, it } = newton(f, df, parseFloat(x0));
+        const { x, iters } = newton(f, df, parseFloat(x0));
+        const fmt = (v: number) => v.toFixed(8);
+        const steps: { title: string; tex?: string; note?: string }[] = [
+          { title: "Equation to solve", tex: `f(x) = ${tex(expr)} = 0` },
+          { title: "Differentiate the function", tex: `f'(x) = ${tex(simplify(dnode).toString())}` },
+          { title: "Newton–Raphson update formula", tex: `x_{k+1} = x_k - \\dfrac{f(x_k)}{f'(x_k)}`, note: "Quadratic convergence near a simple root provided f'(x) ≠ 0." },
+          { title: `Initial guess`, tex: `x_0 = ${fmt(parseFloat(x0))}` },
+        ];
+        iters.forEach((it) => {
+          steps.push({
+            title: `Iteration k = ${it.k}`,
+            tex: `x_{${it.k + 1}} = ${fmt(it.xk)} - \\dfrac{${fmt(it.fxk)}}{${fmt(it.dfxk)}} = ${fmt(it.xk1)}`,
+            note: `Residual |f(x_${it.k + 1})| ≈ ${Math.abs(f(it.xk1)).toExponential(3)}`,
+          });
+        });
+        steps.push({ title: "Convergence reached", note: `Stopped when |xₖ₊₁ − xₖ| < 1e-10 after ${iters.length} iteration(s).` });
         return {
-          steps: [
-            { title: "Equation", tex: `f(x) = ${tex(expr)} = 0` },
-            { title: "Derivative", tex: `f'(x) = ${tex(simplify(dnode).toString())}` },
-            { title: "Newton iteration", tex: `x_{k+1} = x_k - \\dfrac{f(x_k)}{f'(x_k)}` },
-            { title: "Iterations", note: it.map((v, i) => `x${i} = ${v.toFixed(8)}`).join("   ") },
-          ],
-          result: `x \\approx ${x.toFixed(8)}`,
+          steps,
+          result: `x \\approx ${fmt(x)}`,
         };
       }}
     />
