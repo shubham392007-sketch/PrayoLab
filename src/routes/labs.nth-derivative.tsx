@@ -20,7 +20,11 @@ function Page() {
         return {
           steps: [
             { title: "Given function", tex: `f(${v}) = ${tex(expr)}` },
-            ...steps.map((s, i) => ({ title: `Differentiate (${i + 1})`, tex: s.tex })),
+            { title: "Strategy", note: "Apply d/d" + (v || "x") + " repeatedly, simplifying after each pass. Use the product, quotient and chain rules where applicable." },
+            ...steps.flatMap((s, i) => [
+              { title: `Differentiation pass ${i + 1}`, tex: s.tex },
+              { title: `Simplified result after pass ${i + 1}`, tex: `f^{(${i + 1})}(${v}) = ${tex(s.expr)}` },
+            ]),
           ],
           result: `f^{(${order})}(${v}) = ${tex(result)}`,
         };
