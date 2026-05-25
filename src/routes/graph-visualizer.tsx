@@ -11,7 +11,7 @@ import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
 import { safeEval } from "@/lib/math-engine";
-import { derivative, parse } from "mathjs";
+import { derivative, parse, type MathNode } from "mathjs";
 
 export const Route = createFileRoute("/graph-visualizer")({ component: GV });
 
@@ -41,14 +41,14 @@ function splitExpressions(input: string): string[] {
 
 /** Sample a 1-D function with break detection so vertical asymptotes do not draw spurious lines. */
 function sample1D(expr: string, varName: string, lo: number, hi: number, n: number) {
-  let node: ReturnType<typeof parse> | null = null;
-  try { node = parse(expr); } catch { return { xs: [], ys: [] }; }
+  let node: MathNode | null = null;
+  try { node = parse(expr) as MathNode; } catch { return { xs: [], ys: [] }; }
   const xs: (number | null)[] = [], ys: (number | null)[] = [];
   let prev: number | null = null;
   for (let i = 0; i <= n; i++) {
     const x = lo + (i / n) * (hi - lo);
     let y: number;
-    try { y = Number(node.evaluate({ [varName]: x })); } catch { y = NaN; }
+    try { y = Number(node!.evaluate({ [varName]: x })); } catch { y = NaN; }
     if (!Number.isFinite(y)) { xs.push(null); ys.push(null); prev = null; continue; }
     // Break the trace if successive y values jump dramatically (likely asymptote).
     if (prev !== null && Math.abs(y - prev) > 1e3 * (Math.abs(hi - lo) || 1)) {
@@ -107,7 +107,7 @@ function GV() {
         const N = Math.max(400, Math.min(4000, resolution * 50));
         return exprs.map((e, i) => {
           const t: number[] = [], r: number[] = [];
-          const node = parse(e.replace(/\bx\b/g, "t"));
+          const node = parse(e.replace(/\bx\b/g, "t")) as MathNode;
           for (let k = 0; k <= N; k++) {
             const theta = (k / N) * Math.PI * 2;
             t.push((theta * 180) / Math.PI);
@@ -124,7 +124,7 @@ function GV() {
       }
       if (mode === "Parametric") {
         const N = Math.max(400, Math.min(4000, resolution * 50));
-        const nx = parse(exprX), ny = parse(exprY);
+        const nx = parse(exprX) as MathNode, ny = parse(exprY) as MathNode;
         const xs: number[] = [], ys: number[] = [];
         for (let k = 0; k <= N; k++) {
           const tt = -Math.PI + (k / N) * 2 * Math.PI * range / 6;
@@ -144,7 +144,7 @@ function GV() {
         xs.push(-range + (i / (N - 1)) * 2 * range);
         ys.push(-range + (i / (N - 1)) * 2 * range);
       }
-      const node = parse(expr);
+      const node = parse(expr) as MathNode;
       const z: number[][] = ys.map((y) => xs.map((x) => {
         try { const v = Number(node.evaluate({ x, y })); return Number.isFinite(v) ? v : 0; } catch { return 0; }
       }));
