@@ -334,21 +334,63 @@ function Page() {
             </div>
           ))}
         </aside>
-        <div className="pl-card pl-soft-shadow p-6">
-          <div className="text-xs text-muted-foreground">{topic.category} · {topic.title}</div>
-          <h2 className="text-2xl font-semibold mt-1">{topic.title}</h2>
-          <p className="text-sm text-muted-foreground mt-3">{topic.intro}</p>
-          <h3 className="font-medium mt-6">Formula</h3>
-          <div className="mt-2 overflow-x-auto"><F block>{topic.formula}</F></div>
-          {topic.example && (<>
-            <h3 className="font-medium mt-6">Example</h3>
-            <div className="mt-2 overflow-x-auto"><F block>{topic.example}</F></div>
-          </>)}
-          {topic.notes && <p className="text-xs text-muted-foreground mt-4">{topic.notes}</p>}
+        <div className="pl-card pl-soft-shadow p-6 space-y-6">
+          <div>
+            <div className="text-xs text-muted-foreground">{topic.category} · {topic.title}</div>
+            <h2 id="introduction" className="text-2xl font-semibold mt-1">{topic.title}</h2>
+            <p className="text-sm text-foreground/80 mt-3 leading-relaxed">{topic.intro}</p>
+          </div>
+          <section>
+            <h3 id="formula" className="font-medium">Key formula</h3>
+            <div className="mt-2 overflow-x-auto"><F block>{topic.formula}</F></div>
+          </section>
+          {topic.derivation && (
+            <section>
+              <h3 id="derivation" className="font-medium">Derivation</h3>
+              <ol className="mt-2 space-y-2 list-decimal pl-5 text-sm text-foreground/85 leading-relaxed">
+                {topic.derivation.map((d, i) => <li key={i}>{d}</li>)}
+              </ol>
+            </section>
+          )}
+          {topic.properties && (
+            <section>
+              <h3 id="properties" className="font-medium">Properties</h3>
+              <ul className="mt-2 space-y-1.5 list-disc pl-5 text-sm text-foreground/85 leading-relaxed">
+                {topic.properties.map((p, i) => <li key={i}>{p}</li>)}
+              </ul>
+            </section>
+          )}
+          {topic.example && (
+            <section>
+              <h3 id="examples" className="font-medium">Example</h3>
+              <div className="mt-2 overflow-x-auto"><F block>{topic.example}</F></div>
+            </section>
+          )}
+          {topic.applications && (
+            <section>
+              <h3 id="applications" className="font-medium">Applications</h3>
+              <ul className="mt-2 space-y-1.5 list-disc pl-5 text-sm text-foreground/85 leading-relaxed">
+                {topic.applications.map((a, i) => <li key={i}>{a}</li>)}
+              </ul>
+            </section>
+          )}
+          {topic.notes && <p className="text-xs text-muted-foreground">{topic.notes}</p>}
         </div>
         <aside className="text-sm pl-card pl-soft-shadow p-4 h-fit">
           <div className="font-medium mb-3">In This Topic</div>
-          <ul className="space-y-1 text-muted-foreground">{["Introduction","Formula","Derivation","Examples","Properties","Applications"].map(t=><li key={t}>{t}</li>)}</ul>
+          <ul className="space-y-1 text-muted-foreground">
+            {[
+              ["Introduction","introduction"],
+              ["Formula","formula"],
+              topic.derivation && ["Derivation","derivation"],
+              topic.properties && ["Properties","properties"],
+              topic.example && ["Examples","examples"],
+              topic.applications && ["Applications","applications"],
+            ].filter(Boolean).map((t) => {
+              const [label, id] = t as [string, string];
+              return <li key={id}><a href={`#${id}`} className="hover:text-foreground">{label}</a></li>;
+            })}
+          </ul>
         </aside>
       </div>
     </WorkspaceShell>
