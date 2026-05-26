@@ -174,3 +174,37 @@
   .pl-soft-shadow { box-shadow: 0 1px 0 rgba(17,17,17,.02), 0 8px 24px -12px rgba(17,17,17,.08); }
   .pl-mono { font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
 }
+
+/* ----------------------------------------------------------------------
+ * KaTeX visibility & wrapping
+ * KaTeX renders to its own .katex span which sets its own color. Force it
+ * to inherit the surrounding text color so formulas remain legible in both
+ * light and dark themes and on tinted backgrounds (e.g. bg-primary/10).
+ * Allow long display equations to wrap horizontally via scrolling instead
+ * of clipping inside narrow cards.
+ * -------------------------------------------------------------------- */
+.katex,
+.katex * {
+  color: inherit;
+}
+.katex-display {
+  margin: 0.25rem 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 2px;
+}
+.katex-display > .katex {
+  white-space: nowrap;
+  text-align: left;
+}
+
+/* Make any oversized inline content scroll horizontally inside a step card
+ * instead of pushing the layout sideways. */
+.pl-card .overflow-x-auto { max-width: 100%; }
+
+/* Slightly stronger note text so the explanatory captions are readable
+ * on both light and dark cards. */
+.pl-step-note {
+  color: color-mix(in oklch, var(--foreground) 70%, transparent);
+  line-height: 1.55;
+}
