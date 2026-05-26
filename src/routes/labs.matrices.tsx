@@ -27,7 +27,7 @@ function MatrixLab() {
     [1, 0, 2],
   ]);
   const [op, setOp] = useState<Op>("determinant");
-  const [solved, setSolved] = useState<{ steps: { title: string; tex?: string }[]; result: string } | null>(null);
+  const [solved, setSolved] = useState<{ steps: { title: string; tex?: string; note?: string }[]; result: string } | null>(null);
   const log = useSaved((s) => s.logActivity);
   const addReport = useSaved((s) => s.addReport);
 
