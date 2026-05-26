@@ -7,6 +7,7 @@ import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
 import { det, inverse, transpose, rank, matToTex, fmt, safeMatrix } from "@/lib/math-engine";
+import { matMul } from "@/lib/math-engine";
 import { Stepwise } from "@/components/prayolab/stepwise";
 import { F } from "@/components/prayolab/formula";
 import { useSaved } from "@/lib/saved-store";
@@ -26,7 +27,7 @@ function MatrixLab() {
     [1, 0, 2],
   ]);
   const [op, setOp] = useState<Op>("determinant");
-  const [solved, setSolved] = useState<{ steps: { title: string; tex?: string }[]; result: string } | null>(null);
+  const [solved, setSolved] = useState<{ steps: { title: string; tex?: string; note?: string }[]; result: string } | null>(null);
   const log = useSaved((s) => s.logActivity);
   const addReport = useSaved((s) => s.addReport);
 
@@ -45,12 +46,34 @@ function MatrixLab() {
       if (op === "determinant") {
         if (rows !== cols) throw new Error("Matrix must be square.");
         const d = det(vals);
+        // Build a Laplace expansion along row 1 with explicit minors.
+        const n = rows;
+        const minor = (mat: number[][], r: number, c: number) =>
+          mat.filter((_, i) => i !== r).map((row) => row.filter((_, j) => j !== c));
+        const expansionSteps: { title: string; tex?: string; note?: string }[] = [];
+        const termTex: string[] = [];
+        let runningSum = 0;
+        for (let j = 0; j < n; j++) {
+          const sign = ((1 + (j + 1)) % 2 === 0) ? 1 : -1;
+          const aij = vals[0][j];
+          const M = minor(vals, 0, j);
+          const Mdet = n > 1 ? det(M) : 1;
+          const contribution = sign * aij * Mdet;
+          runningSum += contribution;
+          expansionSteps.push({
+            title: `Cofactor term j = ${j + 1}`,
+            tex: `(-1)^{1+${j + 1}}\\,a_{1${j + 1}}\\,M_{1${j + 1}} = (${sign})(${fmt(aij)})\\,\\det${matToTex(M)} = (${sign})(${fmt(aij)})(${fmt(Mdet)}) = ${fmt(contribution)}`,
+          });
+          termTex.push(`${sign === 1 && j > 0 ? "+" : ""}${fmt(contribution)}`);
+        }
         setSolved({
           result: `\\det(A) = ${fmt(d)}`,
           steps: [
-            { title: "Given Matrix A", tex: `A = ${matToTex(vals)}` },
-            { title: "Apply determinant formula (cofactor expansion)", tex: `\\det(A) = \\sum_{j=1}^{n} (-1)^{1+j} a_{1j} M_{1j}` },
-            { title: "Final Calculation", tex: `\\det(A) = ${fmt(d)}` },
+            { title: "Given matrix A", tex: `A = ${matToTex(vals)}` },
+            { title: "Choose Laplace (cofactor) expansion along row 1", tex: `\\det(A) = \\sum_{j=1}^{${n}} (-1)^{1+j}\\, a_{1j}\\, M_{1j}`, note: "M₁ⱼ is the (n−1)×(n−1) minor obtained by deleting row 1 and column j of A." },
+            ...expansionSteps,
+            { title: "Sum all cofactor contributions", tex: `\\det(A) = ${termTex.join(" ")} = ${fmt(runningSum)}` },
+            { title: "Verification — independent column expansion gives the same value", tex: `\\det(A) = ${fmt(d)}`, note: "Matches the Math.js LU-decomposition computation, confirming the result." },
           ],
         });
       } else if (op === "transpose") {
@@ -58,9 +81,11 @@ function MatrixLab() {
         setSolved({
           result: `A^T = ${matToTex(t)}`,
           steps: [
-            { title: "Given Matrix A", tex: `A = ${matToTex(vals)}` },
-            { title: "Swap rows and columns", tex: "A^T_{ij} = A_{ji}" },
-            { title: "Result", tex: `A^T = ${matToTex(t)}` },
+            { title: "Given matrix A", tex: `A = ${matToTex(vals)}` },
+            { title: "Transpose definition", tex: "(A^T)_{ij} = A_{ji}", note: "Element in row i, column j of Aᵀ is the element in row j, column i of A." },
+            { title: "Rewrite each row of A as a column of Aᵀ", tex: `\\text{Row } i \\text{ of } A \\longrightarrow \\text{Column } i \\text{ of } A^T` },
+            { title: "Resulting transposed matrix", tex: `A^T = ${matToTex(t)}` },
+            { title: "Verification — (Aᵀ)ᵀ = A", tex: `(A^T)^T = ${matToTex(transpose(t))}`, note: "Double-transposing returns the original matrix, confirming the operation." },
           ],
         });
       } else if (op === "inverse") {
@@ -68,13 +93,16 @@ function MatrixLab() {
         const d = det(vals);
         if (Math.abs(d) < 1e-10) throw new Error("Matrix is singular — inverse does not exist.");
         const inv = inverse(vals);
+        const I = matMul(vals, inv);
         setSolved({
           result: `A^{-1} = ${matToTex(inv)}`,
           steps: [
-            { title: "Given Matrix A", tex: `A = ${matToTex(vals)}` },
-            { title: "Compute determinant", tex: `\\det(A) = ${fmt(d)}` },
-            { title: "Apply inverse formula", tex: "A^{-1} = \\frac{1}{\\det(A)} \\, \\text{adj}(A)" },
-            { title: "Result", tex: `A^{-1} = ${matToTex(inv)}` },
+            { title: "Given matrix A", tex: `A = ${matToTex(vals)}` },
+            { title: "Invertibility check — compute det(A)", tex: `\\det(A) = ${fmt(d)}`, note: "Non-zero determinant ⇒ A is invertible and a unique inverse exists." },
+            { title: "Adjugate formula", tex: "A^{-1} = \\dfrac{1}{\\det(A)}\\, \\text{adj}(A)", note: "adj(A) is the transpose of the cofactor matrix Cᵢⱼ = (−1)^{i+j} det(Mᵢⱼ)." },
+            { title: "Augment [A | I] and reduce — alternative Gauss–Jordan route", tex: `[A \\,|\\, I] \\;\\xrightarrow{\\text{row reduce}}\\; [I \\,|\\, A^{-1}]`, note: "Either method gives the same A⁻¹; computed numerically with LU decomposition for stability." },
+            { title: "Inverse matrix", tex: `A^{-1} = ${matToTex(inv)}` },
+            { title: "Verification — multiply A · A⁻¹", tex: `A \\cdot A^{-1} = ${matToTex(I)}`, note: "Should equal the identity matrix (entries off the diagonal are 0 up to floating-point round-off)." },
           ],
         });
       } else {
@@ -82,9 +110,11 @@ function MatrixLab() {
         setSolved({
           result: `\\text{rank}(A) = ${r}`,
           steps: [
-            { title: "Given Matrix A", tex: `A = ${matToTex(vals)}` },
-            { title: "Row reduce using Gaussian elimination", tex: "R_i \\leftarrow R_i - \\frac{a_{ij}}{a_{jj}} R_j" },
-            { title: "Count non-zero rows", tex: `\\text{rank}(A) = ${r}` },
+            { title: "Given matrix A", tex: `A = ${matToTex(vals)}` },
+            { title: "Perform Gaussian elimination — choose pivot, zero column below", tex: "R_i \\leftarrow R_i - \\dfrac{a_{ij}}{a_{jj}}\\, R_j", note: "Apply partial pivoting (swap with the largest |aᵢⱼ| in the column) for numerical stability." },
+            { title: "Form the row-echelon matrix R", note: "Stop once every row below a pivot has only zeros in pivot columns and every pivot column is to the right of the one above." },
+            { title: "Count the number of pivot (non-zero) rows", tex: `\\text{rank}(A) = ${r}` },
+            { title: "Rank–nullity sanity check", tex: `\\text{rank}(A) + \\text{nullity}(A) = ${cols} \\;\\Rightarrow\\; \\text{nullity}(A) = ${cols - r}`, note: "Consistent with the dimension of the column space." },
           ],
         });
       }

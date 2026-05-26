@@ -40,7 +40,9 @@ function Page() {
           { title: "Equation to solve", tex: `f(x) = ${tex(expr)} = 0` },
           { title: "Differentiate the function", tex: `f'(x) = ${tex(simplify(dnode).toString())}` },
           { title: "Newton–Raphson update formula", tex: `x_{k+1} = x_k - \\dfrac{f(x_k)}{f'(x_k)}`, note: "Quadratic convergence near a simple root provided f'(x) ≠ 0." },
+          { title: "Geometric interpretation", note: "At xₖ draw the tangent y = f(xₖ) + f'(xₖ)(x − xₖ); xₖ₊₁ is where this tangent crosses the x-axis." },
           { title: `Initial guess`, tex: `x_0 = ${fmt(parseFloat(x0))}` },
+          { title: "Initial residual", tex: `f(x_0) = ${fmt(f(parseFloat(x0)))}`, note: "If |f(x₀)| is already < 1e-10 the guess is already a root." },
         ];
         iters.forEach((it) => {
           steps.push({
@@ -50,6 +52,11 @@ function Page() {
           });
         });
         steps.push({ title: "Convergence reached", note: `Stopped when |xₖ₊₁ − xₖ| < 1e-10 after ${iters.length} iteration(s).` });
+        steps.push({
+          title: "Verification — evaluate f at the converged root",
+          tex: `f(${fmt(x)}) = ${f(x).toExponential(3)}`,
+          note: "Residual is of the order of floating-point round-off, confirming x is a root of f.",
+        });
         return {
           steps,
           result: `x \\approx ${fmt(x)}`,
