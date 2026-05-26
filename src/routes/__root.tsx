@@ -76,11 +76,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "PrayoLab — Interactive Engineering Mathematics Laboratory" },
       { name: "description", content: "PrayoLab is an interactive virtual mathematics laboratory for engineering students — solve, derive, visualize." },
       { name: "author", content: "PrayoLab" },
-      { property: "og:title", content: "PrayoLab" },
-      { property: "og:description", content: "Experiment with mathematics visually." },
+      { property: "og:title", content: "PrayoLab — Interactive Engineering Mathematics Laboratory" },
+      { property: "og:description", content: "PrayoLab is an interactive virtual mathematics laboratory for engineering students — solve, derive, visualize." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "PrayoLab — Interactive Engineering Mathematics Laboratory" },
+      { name: "twitter:description", content: "PrayoLab is an interactive virtual mathematics laboratory for engineering students — solve, derive, visualize." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/3135966e-8332-4b60-8a25-30ce85d56075/id-preview-dd5815cb--1c2391a3-f9af-4f0a-9f93-9bd3ea8eb888.lovable.app-1779749698473.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/3135966e-8332-4b60-8a25-30ce85d56075/id-preview-dd5815cb--1c2391a3-f9af-4f0a-9f93-9bd3ea8eb888.lovable.app-1779749698473.png" },
     ],
     links: [
       {
