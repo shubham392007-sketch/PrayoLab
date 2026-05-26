@@ -44,7 +44,13 @@ function Page() {
           steps.push({ title: "Apply Euler's formula", tex: `e^{(\\alpha + i\\beta) x} = e^{\\alpha x}\\left(\\cos\\beta x + i\\sin\\beta x\\right)`, note: "Take real and imaginary parts as the two real independent solutions." });
           result = `y(x) = e^{${alpha.toFixed(4)} x}\\left(C_1 \\cos ${beta.toFixed(4)} x + C_2 \\sin ${beta.toFixed(4)} x\\right)`;
         }
-        steps.push({ title: "Apply initial / boundary conditions (if any)", note: "Two conditions are needed to determine the constants C₁, C₂." });
+        steps.push({ title: "General solution", tex: `y(x) = ${result}`, note: "Linear combination of two independent solutions of the homogeneous ODE." });
+        steps.push({
+          title: "Verification — substitute y back into the ODE",
+          tex: `${A}\\,y'' + ${B}\\,y' + ${C}\\,y \\stackrel{?}{=} 0`,
+          note: "For each basis solution eʳⁱˣ, plugging in yields (a rᵢ² + b rᵢ + c) eʳⁱˣ = 0 because rᵢ satisfies the characteristic equation. By linearity, every C₁ y₁ + C₂ y₂ also satisfies the ODE.",
+        });
+        steps.push({ title: "Apply initial / boundary conditions (if any)", note: "Two conditions, e.g. y(0) = y₀ and y'(0) = v₀, give a 2×2 linear system that pins down C₁ and C₂." });
         return { steps, result };
       }}
     />

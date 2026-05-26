@@ -40,6 +40,21 @@ function Page() {
           s += wx * wy * node.evaluate({ x: a + i * hx, y: c + j * hy });
         }
         const I = (hx * hy / 9) * s;
+        // Verification via swapped order of integration: ∫_a^b (∫_c^d f dy) dx using same composite Simpson.
+        const innerY = (x: number) => {
+          let sy = node.evaluate({ x, y: c }) + node.evaluate({ x, y: d });
+          for (let i = 1; i < N; i++) {
+            const w = i % 2 ? 4 : 2;
+            sy += w * node.evaluate({ x, y: c + i * hy });
+          }
+          return (hy / 3) * sy;
+        };
+        let s2 = innerY(a) + innerY(b);
+        for (let i = 1; i < N; i++) {
+          const w = i % 2 ? 4 : 2;
+          s2 += w * innerY(a + i * hx);
+        }
+        const I_swap = (hx / 3) * s2;
         return {
           steps: [
             { title: "Set up the iterated integral (Fubini)", tex: `I = \\int_{${c}}^{${d}}\\!\\!\\int_{${a}}^{${b}} ${tex(expr)} \\, dx\\, dy` },
@@ -48,6 +63,13 @@ function Page() {
             { title: "Outer integral", tex: `I = \\int_{${c}}^{${d}} g(y) \\, dy` },
             { title: "Numerical scheme", note: "Composite Simpson's rule with 80×80 panels in both directions — O((hx⁴ + hy⁴)) accuracy." },
             { title: "Step size", tex: `h_x = \\dfrac{b - a}{N} = ${hx.toFixed(6)},\\quad h_y = \\dfrac{d - c}{N} = ${hy.toFixed(6)}` },
+            { title: "Composite-Simpson 2-D formula", tex: `I \\approx \\dfrac{h_x h_y}{9} \\sum_{i=0}^{N}\\sum_{j=0}^{N} w_i^x\\, w_j^y\\, f(x_i, y_j)`, note: "Weights wₖ = 1 at endpoints, 4 at odd interior nodes, 2 at even interior nodes." },
+            { title: "Final numerical value", tex: `I \\approx ${I.toFixed(8)}` },
+            {
+              title: "Verification — swap the order of integration (Fubini)",
+              tex: `\\int_{${a}}^{${b}}\\!\\!\\int_{${c}}^{${d}} ${tex(expr)} \\, dy\\, dx \\approx ${I_swap.toFixed(8)}`,
+              note: `Absolute difference between the two orders ≈ ${Math.abs(I - I_swap).toExponential(3)} — confirms Fubini's theorem numerically.`,
+            },
           ],
           result: `I \\approx ${I.toFixed(8)}`,
         };

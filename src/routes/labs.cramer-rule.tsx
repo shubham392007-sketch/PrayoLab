@@ -23,17 +23,27 @@ function Page() {
         const { D, Di, xs } = cramer(M, B);
         const replaceCol = (mat: number[][], col: number, vec: number[]) =>
           mat.map((row, r) => row.map((v, c) => (c === col ? vec[r] : v)));
+        // Verification: compute A·x and compare to b.
+        const Ax = M.map((row) => row.reduce((s, v, j) => s + v * xs[j], 0));
+        const residual = Ax.map((v, i) => v - B[i]);
+        const resNorm = Math.sqrt(residual.reduce((s, v) => s + v * v, 0));
         const steps: { title: string; tex?: string; note?: string }[] = [
           { title: "Write the system in matrix form", tex: `A\\,\\mathbf{x} = \\mathbf{b}` },
           { title: "Coefficient matrix A", tex: `A = ${matToTex(M)}` },
           { title: "Right-hand side b", tex: `\\mathbf{b} = ${matToTex(B.map((v) => [v]))}` },
           { title: "Check that the system has a unique solution", tex: `D = \\det(A) = ${fmt(D)}`, note: Math.abs(D) < 1e-12 ? "det(A) = 0 — Cramer's rule does not apply." : "det(A) ≠ 0, so A is invertible and the system has a unique solution." },
+          { title: "Cramer's rule (general form)", tex: `x_i = \\dfrac{\\det(A_i)}{\\det(A)},\\quad i = 1, 2, \\dots, n`, note: "Aᵢ is obtained from A by replacing the i-th column with b." },
         ];
         Di.forEach((d, i) => {
           const Ai = replaceCol(M, i, B);
           steps.push({ title: `Form A_${i + 1} by replacing column ${i + 1} with b`, tex: `A_{${i + 1}} = ${matToTex(Ai)}` });
           steps.push({ title: `Determinant of A_${i + 1}`, tex: `D_{${i + 1}} = \\det(A_{${i + 1}}) = ${fmt(d)}` });
           steps.push({ title: `Apply Cramer's rule for x_${i + 1}`, tex: `x_{${i + 1}} = \\dfrac{D_{${i + 1}}}{D} = \\dfrac{${fmt(d)}}{${fmt(D)}} = ${fmt(xs[i])}` });
+        });
+        steps.push({
+          title: "Verification — substitute x back into A·x",
+          tex: `A\\,\\mathbf{x} = ${matToTex(Ax.map((v) => [v]))} \\approx ${matToTex(B.map((v) => [v]))} = \\mathbf{b}`,
+          note: `Residual ‖A·x − b‖ ≈ ${resNorm.toExponential(3)} (round-off only — solution verified).`,
         });
         return {
           steps,

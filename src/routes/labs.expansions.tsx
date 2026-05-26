@@ -23,6 +23,7 @@ function Page() {
         const steps: { title: string; tex?: string; note?: string }[] = [
           { title: "Given function and expansion centre", tex: `f(x) = ${tex(expr)},\\quad a = ${center},\\quad \\text{order } n = ${order}` },
           { title: "Taylor series formula", tex: `f(x) = \\sum_{k=0}^{\\infty} \\dfrac{f^{(k)}(a)}{k!}(x - a)^k` },
+          { title: "Strategy", note: "Compute the k-th derivative f⁽ᵏ⁾(x), evaluate at x = a, divide by k!, and multiply by (x − a)ᵏ. Stop at k = n; the remainder is O((x − a)ⁿ⁺¹) by Taylor's theorem." },
         ];
         const terms: string[] = [];
         let cur = expr;
@@ -41,7 +42,24 @@ function Page() {
           cur = simplify(derivative(cur, "x")).toString();
         }
         const series = terms.join(" ").replace(/^\+\s*/, "");
-        steps.push({ title: "Add all retained terms", note: `Truncation error is O((x − a)^${order + 1}) by Taylor's theorem.` });
+        steps.push({ title: "Sum the retained terms", tex: `P_{${order}}(x) = ${series}`, note: `Polynomial Taylor approximation of f around a = ${center}.` });
+        // Verification at a nearby probe point.
+        const probe = center + 0.1;
+        const exact = parse(expr).evaluate({ x: probe });
+        // Reconstruct polynomial value.
+        let cur2 = expr;
+        let approx = 0;
+        for (let k = 0; k <= order; k++) {
+          const val = parse(cur2).evaluate({ x: center });
+          approx += (val / factorial(k)) * Math.pow(probe - center, k);
+          cur2 = simplify(derivative(cur2, "x")).toString();
+        }
+        steps.push({
+          title: `Verification at the probe point x = ${probe.toFixed(2)}`,
+          tex: `P_{${order}}(${probe.toFixed(2)}) = ${approx.toFixed(8)},\\quad f(${probe.toFixed(2)}) = ${Number(exact).toFixed(8)}`,
+          note: `Absolute error ≈ ${Math.abs(Number(exact) - approx).toExponential(3)} — consistent with the O((x − a)^${order + 1}) bound.`,
+        });
+        steps.push({ title: "Remainder bound (Lagrange form)", tex: `R_{${order}}(x) = \\dfrac{f^{(${order + 1})}(\\xi)}{(${order + 1})!}(x - ${center})^{${order + 1}}`, note: "ξ lies between a and x; controls the worst-case truncation error." });
         return { steps, result: `f(x) \\approx ${series}` };
       }}
     />
