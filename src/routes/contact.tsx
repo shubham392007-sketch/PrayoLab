@@ -14,11 +14,19 @@ function Page() {
       <section className="mx-auto max-w-5xl px-5 py-20">
         <div className="pl-chip mb-5">Contact</div>
         <h1 className="text-4xl md:text-5xl font-semibold tracking-tight">Contact</h1>
-        <p className="text-muted-foreground mt-4 max-w-2xl">PrayoLab is an interactive virtual mathematics laboratory designed to help engineering students learn, visualize, and master mathematics with confidence.</p>
-        <div className="grid sm:grid-cols-3 gap-4 mt-10">
-          {["50+ Virtual Labs","1000+ Topics","99.9% Accuracy"].map((s)=>(
-            <div key={s} className="pl-card pl-soft-shadow p-6"><div className="text-2xl font-semibold">{s.split(" ")[0]}</div><div className="text-sm text-muted-foreground">{s.split(" ").slice(1).join(" ")}</div></div>
-          ))}
+        <p className="text-muted-foreground mt-4 max-w-2xl">Have feedback, collaboration ideas, or just want to say hi? Reach out through any of the channels below.</p>
+
+        <div className="grid sm:grid-cols-2 gap-4 mt-10">
+          <a href="https://github.com/shubham392007-sketch" target="_blank" rel="noreferrer" className="pl-card pl-soft-shadow p-6 block hover:border-foreground/30 transition-colors">
+            <div className="text-xs uppercase tracking-wider text-muted-foreground">GitHub</div>
+            <div className="text-lg font-semibold mt-1 break-all">github.com/shubham392007-sketch</div>
+            <div className="text-sm text-muted-foreground mt-2">Source code, issues, and contributions.</div>
+          </a>
+          <a href="https://www.linkedin.com/in/shubham-pokale-94030b37a" target="_blank" rel="noreferrer" className="pl-card pl-soft-shadow p-6 block hover:border-foreground/30 transition-colors">
+            <div className="text-xs uppercase tracking-wider text-muted-foreground">LinkedIn</div>
+            <div className="text-lg font-semibold mt-1 break-all">linkedin.com/in/shubham-pokale-94030b37a</div>
+            <div className="text-sm text-muted-foreground mt-2">Connect professionally with the developer.</div>
+          </a>
         </div>
       </section>
       <Footer />
