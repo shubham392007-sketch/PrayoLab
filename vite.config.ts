@@ -21,8 +21,10 @@ if (isVercel) {
       tanstackStart({
         server: {
           entry: "server",
-          preset: "vercel",
         },
+      }),
+      (await import("nitro/vite")).nitro({
+        preset: "vercel",
       }),
       react(),
     ],
