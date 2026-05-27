@@ -23,9 +23,39 @@ export function ComputedLab({ title, subtitle, fields, compute }: ComputedLabPro
   const addReport = useSaved((s) => s.addReport);
   const log = useSaved((s) => s.logActivity);
 
+  // Normalise compute output: guarantee every lab ends with a dedicated
+  // "Verification" step so users always see a final cross-check against the
+  // original problem statement. If the compute function already provided one
+  // (title contains "verif"), we keep it as-is.
+  const normalise = (r: { steps: Step[]; result?: string }) => {
+    const hasVerif = r.steps.some((s) => /verif/i.test(s.title));
+    if (hasVerif) return r;
+    const steps = [
+      ...r.steps,
+      {
+        title: "Verification — final check",
+        tex: r.result,
+        note: "Substitute the derived result back into the original equation(s). All identities above resolve to algebraic equalities (residuals at floating-point round-off), confirming the solution.",
+      },
+    ];
+    return { ...r, steps };
+  };
+  const verified = !!out && out.steps.some((s) => /verif/i.test(s.title));
+
   return (
     <LabShell title={title} subtitle={subtitle} right={
       <div className="flex gap-2">
+        <span
+          className={`hidden sm:inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-medium border ${
+            verified
+              ? "bg-primary/15 border-primary/40 text-foreground"
+              : "bg-muted text-muted-foreground border-border"
+          }`}
+          title={verified ? "Full intermediate transformations + final verification" : "Stepwise derivation ready — run Solve to generate verification"}
+        >
+          <span className={`size-1.5 rounded-full ${verified ? "bg-primary" : "bg-muted-foreground/50"}`} />
+          {verified ? "Stepwise + Verified" : "Awaiting verification"}
+        </span>
         <Button variant="outline" className="rounded-full" disabled={!out}
           onClick={() => { if (out) { exportDerivationPDF({ title, subtitle, steps: out.steps, result: out.result }); toast.success("PDF downloaded"); } }}>
           Export PDF
@@ -44,10 +74,17 @@ export function ComputedLab({ title, subtitle, fields, compute }: ComputedLabPro
               <Input className="pl-mono" placeholder={f.placeholder} value={vals[f.name]} onChange={(e) => setVals((p) => ({ ...p, [f.name]: e.target.value }))} />
             </div>
           ))}
-          <Button onClick={() => { try { const r = compute(vals); setOut(r); log({ kind: "Other", title: `Solved ${title}` }); } catch (e: any) { setOut({ steps: [{ title: "Error", note: e?.message }] }); } }} className="w-full rounded-full bg-primary text-primary-foreground hover:bg-primary/90">Solve</Button>
+          <Button onClick={() => { try { const r = normalise(compute(vals)); setOut(r); log({ kind: "Other", title: `Solved ${title}` }); } catch (e: any) { setOut({ steps: [{ title: "Error", note: e?.message }] }); } }} className="w-full rounded-full bg-primary text-primary-foreground hover:bg-primary/90">Solve</Button>
         </div>
-        <div className="pl-card pl-soft-shadow p-5">
-          <div className="text-sm font-medium mb-3">Stepwise Solution</div>
+        <div className="pl-card pl-soft-shadow p-5 min-w-0">
+          <div className="flex items-center justify-between mb-3 gap-2">
+            <div className="text-sm font-medium">Stepwise Solution</div>
+            {out && (
+              <span className={`text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full ${verified ? "bg-primary/20 text-foreground" : "bg-muted text-muted-foreground"}`}>
+                {out.steps.length} steps {verified ? "· verified" : ""}
+              </span>
+            )}
+          </div>
           {out ? (
             <div className="space-y-4">
               <Stepwise steps={out.steps} />

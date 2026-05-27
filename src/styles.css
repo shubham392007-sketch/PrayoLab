@@ -202,6 +202,22 @@
  * instead of pushing the layout sideways. */
 .pl-card .overflow-x-auto { max-width: 100%; }
 
+/* Universal overflow-safe wrapper for KaTeX content anywhere in the app.
+ * Ensures long derivations scroll instead of clipping or pushing layout. */
+.katex-display,
+.katex-display > .katex {
+  max-width: 100%;
+}
+.katex-display::-webkit-scrollbar { height: 6px; }
+.katex-display::-webkit-scrollbar-thumb {
+  background: color-mix(in oklch, var(--foreground) 20%, transparent);
+  border-radius: 999px;
+}
+/* Inline math should never break the line silently — let the container scroll
+ * when needed but keep contrast strong inside tinted cards. */
+.pl-card .katex { color: inherit; }
+.pl-card.bg-primary\/10 .katex { color: var(--foreground); }
+
 /* Slightly stronger note text so the explanatory captions are readable
  * on both light and dark cards. */
 .pl-step-note {
